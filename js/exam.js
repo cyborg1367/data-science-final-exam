@@ -218,8 +218,12 @@
     if (!confirm(msg)) return;
 
     const apiUrl = window.EXAM_CONFIG && window.EXAM_CONFIG.GRADE_API_URL;
-    if (!apiUrl || apiUrl.includes('YOUR_PROJECT')) {
-      alert('Grading API is not configured. Ask your instructor to set js/config.js.');
+    if (!apiUrl || apiUrl.includes('YOUR_PROJECT') || apiUrl.includes('REPLACE_ME')) {
+      alert('Grading API is not configured. Set GRADE_API_URL in js/config.js to your Vercel URL.');
+      return;
+    }
+    if (/localhost|127\.0\.0\.1/.test(apiUrl) && !/^https?:\/\/(localhost|127\.0\.0\.1)/.test(location.origin)) {
+      alert('config.js points to localhost but the exam is not running locally. Update GRADE_API_URL to your Vercel URL and push to GitHub.');
       return;
     }
 
@@ -255,7 +259,17 @@
         window.location.href = 'results.html';
       })
       .catch(function (err) {
-        alert(err.message || 'Could not submit exam. Check your connection and try again.');
+        let msg = err.message || 'Could not submit exam.';
+        if (msg === 'Failed to fetch' || (err.name === 'TypeError' && /fetch/i.test(msg))) {
+          msg =
+            'Cannot reach the grading server (network/CORS).\n\n' +
+            'Checklist:\n' +
+            '1. Set GRADE_API_URL in js/config.js to your Vercel URL\n' +
+            '2. Deploy api/ to Vercel with ANSWER_KEY_JSON set\n' +
+            '3. On Vercel set ALLOW_GITHUB_PAGES=true\n' +
+            '4. Push config.js to GitHub and wait for Pages to update';
+        }
+        alert(msg);
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
       });

@@ -128,8 +128,8 @@
           sessionStorage.removeItem('examAccessCode');
         }
 
-        if (!cfg.GRADE_API_URL || cfg.GRADE_API_URL.includes('YOUR_PROJECT')) {
-          alert('Exam is not fully configured. Ask your instructor to set up the grading API.');
+        if (!cfg.GRADE_API_URL || cfg.GRADE_API_URL.includes('YOUR_PROJECT') || cfg.GRADE_API_URL.includes('REPLACE_ME')) {
+          alert('Exam is not fully configured. Set GRADE_API_URL in js/config.js to your Vercel API URL, then push to GitHub.');
           return;
         }
 

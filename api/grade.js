@@ -8,14 +8,20 @@ function setCors(req, res) {
     .filter(Boolean);
 
   const allowGithub = process.env.ALLOW_GITHUB_PAGES !== 'false';
-  const githubMatch = /^https:\/\/[\w.-]+\.github\.io$/;
+  let allowOrigin = null;
 
-  if (allowed.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  } else if (allowGithub && githubMatch.test(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  } else if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+  if (origin && allowed.includes(origin)) {
+    allowOrigin = origin;
+  } else if (allowGithub && /^https:\/\/[\w.-]+\.github\.io$/.test(origin)) {
+    allowOrigin = origin;
+  } else if (allowGithub && /\.github\.io$/.test(origin)) {
+    allowOrigin = origin;
+  } else if (process.env.VERCEL_ENV === 'preview' || process.env.VERCEL_ENV === 'development') {
+    allowOrigin = origin || '*';
+  }
+
+  if (allowOrigin) {
+    res.setHeader('Access-Control-Allow-Origin', allowOrigin);
   }
 
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
