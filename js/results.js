@@ -322,6 +322,10 @@
     if (typeof initChartsInContainer === 'function') {
       initChartsInContainer(container);
     }
+
+    if (typeof typesetMath === 'function') {
+      typesetMath(container);
+    }
   }
 
   function buildReviewCard(r) {

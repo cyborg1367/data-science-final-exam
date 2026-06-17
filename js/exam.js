@@ -96,6 +96,10 @@
     initChartsInContainer(container);
   }
 
+  if (typeof typesetMath === 'function') {
+    typesetMath(container);
+  }
+
   updateProgress();
   startTimer();
 

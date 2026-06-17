@@ -10,8 +10,7 @@
   <div class="landing-stage">
     <div class="card glass-strong landing-split animate-in">
       <div class="landing-info">
-        <div class="banner-eyebrow">Data Science Course</div>
-        <h1 class="landing-title">Basics of Data Science</h1>
+        <h1 class="landing-title">Basics of<br>Data Science</h1>
         <p class="landing-exam-title">Final Exam</p>
 
         <div class="landing-meta">
@@ -32,13 +31,16 @@
         <form id="start-form">
           <div class="form-group hidden" id="exam-code-group">
             <label for="exam-code"><span class="icon" data-icon="lock"></span>Exam access code</label>
-            <input
-              type="password"
-              id="exam-code"
-              placeholder="Enter code from your instructor"
-              autocomplete="off"
-              maxlength="64"
-            >
+            <div class="input-wrap">
+              <input
+                type="password"
+                id="exam-code"
+                placeholder="Enter code from your instructor"
+                autocomplete="off"
+                maxlength="64"
+              >
+              <button type="button" class="input-toggle icon" id="exam-code-toggle" data-icon="eye" aria-label="Show code" aria-pressed="false"></button>
+            </div>
             <p class="error-msg" id="code-error">Please enter the exam access code.</p>
           </div>
           <div class="form-group">
@@ -76,6 +78,20 @@
       if (cfg.REQUIRE_EXAM_CODE && codeGroup) {
         codeGroup.classList.remove('hidden');
         document.getElementById('exam-code').required = true;
+      }
+
+      const codeInput = document.getElementById('exam-code');
+      const codeToggle = document.getElementById('exam-code-toggle');
+      if (codeInput && codeToggle) {
+        codeToggle.addEventListener('click', function () {
+          const show = codeInput.type === 'password';
+          codeInput.type = show ? 'text' : 'password';
+          codeToggle.setAttribute('aria-pressed', String(show));
+          codeToggle.setAttribute('aria-label', show ? 'Hide code' : 'Show code');
+          codeToggle.setAttribute('data-icon', show ? 'eye-off' : 'eye');
+          if (window.Icons) window.Icons.hydrate(codeToggle.parentNode);
+          codeInput.focus();
+        });
       }
 
       document.getElementById('start-form').addEventListener('submit', function (e) {
