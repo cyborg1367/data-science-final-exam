@@ -3,6 +3,6 @@
  * Replace GRADE_API_URL with your Vercel deployment URL after deploying the API.
  */
 window.EXAM_CONFIG = {
-  GRADE_API_URL: 'https://dc-exam.vercel.app/',
+  GRADE_API_URL: 'https://dc-exam.vercel.app/api/grade',
   REQUIRE_EXAM_CODE: true
 };
