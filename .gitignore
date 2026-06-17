@@ -15,7 +15,6 @@ desktop.ini
 # Secrets — never commit to GitHub
 data/questions-master.js
 api/data/answer-key.json
-js/config.js
 .env
 .env.local
 
