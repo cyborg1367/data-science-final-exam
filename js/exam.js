@@ -20,10 +20,14 @@
   const letters = 'ABCDEFGHIJ';
   const orderedQuestions = ExamSession.getOrderedQuestions();
 
+  const MOTION_OK = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const REVEAL_OK = MOTION_OK && 'IntersectionObserver' in window;
+  let progressShown = 0;
+
   orderedQuestions.forEach((q, position) => {
     const displayNum = position + 1;
     const card = document.createElement('article');
-    card.className = 'question-card morph-card';
+    card.className = 'question-card morph-card' + (REVEAL_OK ? ' q-reveal' : '');
     card.id = 'question-' + q.id;
     card.dataset.questionId = q.id;
     card.dataset.displayNum = displayNum;
@@ -86,6 +90,11 @@
       const marked = ExamSession.isMarked(q.id);
       card.classList.toggle('marked-review', marked);
       card.querySelector('.mark-review-btn').innerHTML = markLabel(marked);
+      const starIcon = card.querySelector('.mark-review-btn .icon-svg');
+      if (MOTION_OK && starIcon) {
+        starIcon.classList.add('pop');
+        starIcon.addEventListener('animationend', () => starIcon.classList.remove('pop'), { once: true });
+      }
       updateNavigator();
     });
   });
@@ -99,6 +108,10 @@
   if (typeof typesetMath === 'function') {
     typesetMath(container);
   }
+
+  setupReveal();
+  setupScrollSpy();
+  setupRipples();
 
   updateProgress();
   startTimer();
@@ -151,14 +164,92 @@
 
   function handleAnswerChange(q, card) {
     const selected = getSelectedIndices(q.id);
+    const wasAnswered = card.classList.contains('answered');
     const current = loadAnswers();
     current[q.id] = selected;
     saveAnswers(current);
 
     card.classList.toggle('answered', selected.length > 0);
     card.classList.remove('unanswered-highlight');
+
+    if (MOTION_OK && selected.length > 0 && !wasAnswered) {
+      card.classList.remove('answer-pulse');
+      void card.offsetWidth;
+      card.classList.add('answer-pulse');
+      card.addEventListener('animationend', function done() {
+        card.classList.remove('answer-pulse');
+        card.removeEventListener('animationend', done);
+      });
+      popNavCell(q.id);
+    }
+
     updateProgress();
     updateNavigator();
+  }
+
+  function popNavCell(qid) {
+    if (!MOTION_OK) return;
+    const cell = navGrid.querySelector('[data-target="question-' + qid + '"]');
+    if (!cell) return;
+    cell.classList.remove('pop');
+    void cell.offsetWidth;
+    cell.classList.add('pop');
+    cell.addEventListener('animationend', () => cell.classList.remove('pop'), { once: true });
+  }
+
+  function setActiveNav(qid) {
+    navGrid.querySelectorAll('.nav-cell').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.target === 'question-' + qid);
+    });
+  }
+
+  function setupReveal() {
+    const cards = Array.from(container.querySelectorAll('.q-reveal'));
+    if (!cards.length) return;
+    const start = performance.now();
+    let batch = 0;
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const delay = (performance.now() - start < 450) ? Math.min(batch++, 8) * 65 : 0;
+        el.style.transitionDelay = delay + 'ms';
+        el.classList.add('in-view');
+        obs.unobserve(el);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    cards.forEach(c => io.observe(c));
+    // Safety: never leave a card hidden if the observer misbehaves.
+    setTimeout(() => cards.forEach(c => c.classList.add('in-view')), 1800);
+  }
+
+  function setupScrollSpy() {
+    if (!('IntersectionObserver' in window)) return;
+    const cards = Array.from(container.querySelectorAll('.question-card'));
+    if (!cards.length) return;
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) setActiveNav(entry.target.dataset.questionId);
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    cards.forEach(c => spy.observe(c));
+  }
+
+  function setupRipples() {
+    if (!MOTION_OK) return;
+    container.addEventListener('pointerdown', e => {
+      const label = e.target.closest('.option-label');
+      if (!label) return;
+      const rect = label.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.15;
+      const ripple = document.createElement('span');
+      ripple.className = 'option-ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left) + 'px';
+      ripple.style.top = (e.clientY - rect.top) + 'px';
+      label.appendChild(ripple);
+      ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+    });
   }
 
   function getSelectedIndices(questionId) {
@@ -187,14 +278,38 @@
 
     const total = EXAM_QUESTIONS.length;
     const pct = Math.round((answered / total) * 100);
-    document.getElementById('progress-text').textContent = answered + ' / ' + total + ' answered';
+    setProgressText(answered, total);
     document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('submit-btn').disabled = answered < total;
-    document.getElementById('submit-warning').classList.toggle('visible', answered < total);
+
+    const submitBtn = document.getElementById('submit-btn');
+    const complete = answered >= total;
+    submitBtn.disabled = !complete;
+    submitBtn.classList.toggle('breathe', complete);
+    document.getElementById('submit-warning').classList.toggle('visible', !complete);
 
     const markedCount = ExamSession.loadMarked().length;
     const markedEl = document.getElementById('marked-count');
     if (markedEl) markedEl.textContent = markedCount;
+  }
+
+  function setProgressText(answered, total) {
+    const el = document.getElementById('progress-text');
+    if (!el) return;
+    if (!MOTION_OK || progressShown === answered) {
+      el.textContent = answered + ' / ' + total + ' answered';
+      progressShown = answered;
+      return;
+    }
+    const from = progressShown;
+    const startT = performance.now();
+    const dur = Math.min(450, Math.abs(answered - from) * 140 + 120);
+    (function frame(now) {
+      const t = Math.min(1, (now - startT) / dur);
+      const val = Math.round(from + (answered - from) * t);
+      el.textContent = val + ' / ' + total + ' answered';
+      if (t < 1) requestAnimationFrame(frame);
+      else progressShown = answered;
+    })(startT);
   }
 
   function submitExam() {
@@ -327,6 +442,11 @@
       const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
       const secs = (elapsed % 60).toString().padStart(2, '0');
       timerEl.textContent = mins + ':' + secs;
+      if (MOTION_OK) {
+        timerEl.classList.remove('tick');
+        void timerEl.offsetWidth;
+        timerEl.classList.add('tick');
+      }
     }
 
     tick();

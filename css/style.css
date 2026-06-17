@@ -1490,6 +1490,142 @@ code {
 }
 .animate-in { animation: fadeInUp 0.4s ease forwards; }
 
+/* ===== Exam page — professional motion layer ===== */
+
+/* Ambient floating gradient behind the exam content */
+.exam-page::after {
+  content: "";
+  position: fixed;
+  inset: -25%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(36% 30% at 18% 22%, rgba(99, 102, 241, 0.16), transparent 70%),
+    radial-gradient(32% 28% at 82% 28%, rgba(56, 189, 248, 0.12), transparent 70%),
+    radial-gradient(38% 32% at 70% 82%, rgba(52, 211, 153, 0.10), transparent 70%);
+  filter: blur(10px);
+  animation: ambientFloat 24s ease-in-out infinite alternate;
+}
+.exam-layout { position: relative; z-index: 1; }
+.exam-page .course-banner { position: relative; z-index: 1; }
+
+@keyframes ambientFloat {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(2.5%, -2%, 0) scale(1.07); }
+  100% { transform: translate3d(-2%, 2%, 0) scale(1.04); }
+}
+
+/* Staggered scroll-reveal of question cards */
+.q-reveal {
+  opacity: 0;
+  transform: translateY(20px) scale(0.985);
+  transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.q-reveal.in-view { opacity: 1; transform: none; }
+
+/* Card hover lift */
+.question-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.question-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow), 0 14px 34px rgba(0, 0, 0, 0.38);
+}
+
+/* Pulse a card briefly when it gets answered */
+.question-card.answer-pulse { animation: answerPulse 0.7s ease; }
+@keyframes answerPulse {
+  0%   { box-shadow: var(--shadow-glow), 0 0 0 0 rgba(52, 211, 153, 0); }
+  30%  { box-shadow: var(--shadow-glow), 0 0 0 3px rgba(52, 211, 153, 0.4); }
+  100% { box-shadow: var(--shadow-glow), 0 0 0 0 rgba(52, 211, 153, 0); }
+}
+
+/* Option ripple + checkmark pop */
+.option-label { position: relative; overflow: hidden; }
+.option-ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.4), rgba(99, 102, 241, 0) 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0.9;
+  animation: optionRipple 0.6s ease-out forwards;
+}
+@keyframes optionRipple {
+  to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+.option-item input:checked + .option-label .option-marker::after {
+  animation: markerPop 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes markerPop {
+  0%   { transform: scale(0.2); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* Navigator: active question + answered pop */
+.nav-cell.active {
+  border-color: var(--accent);
+  color: var(--accent-hover);
+  box-shadow: 0 0 0 2px var(--accent-glow), 0 0 12px var(--accent-glow);
+}
+.nav-cell.pop { animation: navPop 0.36s ease; }
+@keyframes navPop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* Progress bar shimmer */
+.progress-fill { position: relative; overflow: hidden; }
+.progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: translateX(-100%);
+  animation: progressShimmer 2.4s ease-in-out infinite;
+}
+@keyframes progressShimmer {
+  0%   { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}
+
+/* Submit button "breathing" glow once everything is answered */
+#submit-btn.breathe:not(:disabled) { animation: submitBreathe 1.9s ease-in-out infinite; }
+@keyframes submitBreathe {
+  0%, 100% { box-shadow: 0 2px 12px var(--accent-glow), var(--card-highlight); }
+  50%      { box-shadow: 0 4px 24px rgba(99, 102, 241, 0.6), 0 0 0 3px var(--accent-soft), var(--card-highlight); }
+}
+
+/* Timer tick + mark-for-review star pop */
+.timer.tick { animation: timerTick 0.4s ease; }
+@keyframes timerTick {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.mark-review-btn .icon-svg.pop { animation: starPop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes starPop {
+  0%   { transform: scale(1) rotate(0); }
+  45%  { transform: scale(1.45) rotate(-10deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .q-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .exam-page::after,
+  .progress-fill::after,
+  #submit-btn.breathe,
+  .question-card.answer-pulse,
+  .option-ripple,
+  .nav-cell.pop,
+  .timer.tick,
+  .option-item input:checked + .option-label .option-marker::after,
+  .mark-review-btn .icon-svg.pop { animation: none !important; }
+  .question-card { transition: none; }
+  .question-card:hover { transform: none; }
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 1024px) {
   .exam-layout { grid-template-columns: 1fr; }
