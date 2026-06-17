@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs
+*.log
+
+# Secrets — never commit to GitHub
+data/questions-master.js
+api/data/answer-key.json
+js/config.js
+.env
+.env.local
+
+# Vercel
+.vercel

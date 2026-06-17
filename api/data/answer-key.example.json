@@ -1,0 +1,15 @@
+{
+  "passThreshold": 60,
+  "topics": {
+    "descriptive_statistics": "Descriptive Statistics"
+  },
+  "questions": [
+    {
+      "id": 1,
+      "topic": "descriptive_statistics",
+      "difficulty": "medium",
+      "correct": [1],
+      "explanation": "Example only — run scripts/split_questions.py to generate the real answer-key.json"
+    }
+  ]
+}

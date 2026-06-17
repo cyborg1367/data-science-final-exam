@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam — Basics of Data Science</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="exam-page">
+  <header class="course-banner">
+    <div class="course-banner-inner">
+      <div class="banner-eyebrow">Data Science Course</div>
+      <h1 class="banner-course">Basics of Data Science</h1>
+      <p class="banner-exam-title">Final Exam</p>
+      <div class="banner-meta">
+        <div class="banner-meta-item">
+          <span class="banner-meta-icon">👨‍🏫</span>
+          <span>Instructor: <strong>Masoud Ahangary</strong></span>
+        </div>
+        <div class="banner-meta-item">
+          <span class="banner-meta-icon">📋</span>
+          <span><strong id="question-count">35</strong> Questions · Shuffled order</span>
+        </div>
+        <span class="banner-student-pill" id="display-name">—</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="exam-layout">
+    <aside class="question-navigator morph-card" id="question-navigator">
+      <div class="nav-header">
+        <h3>Question Navigator</h3>
+        <button type="button" class="nav-close" id="nav-close" aria-label="Close">✕</button>
+      </div>
+      <div class="nav-stats">
+        <span class="nav-stat answered-dot">Answered</span>
+        <span class="nav-stat marked-dot">Review</span>
+        <span class="nav-stat pending-dot">Pending</span>
+      </div>
+      <div class="nav-grid" id="nav-grid"></div>
+      <p class="nav-footer"><span id="marked-count">0</span> marked for review</p>
+    </aside>
+
+    <div class="exam-main">
+      <div class="container exam-container">
+        <div class="exam-toolbar morph-inset">
+          <div class="exam-toolbar-inner">
+            <button type="button" class="btn btn-nav-toggle" id="nav-toggle">☰ Questions</button>
+            <div class="progress-wrap">
+              <div class="progress-label">
+                <span>Exam Progress</span>
+                <span id="progress-text">0 / 35 answered</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+              </div>
+            </div>
+            <div class="timer" id="timer" title="Elapsed time">00:00</div>
+          </div>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <div class="submit-section">
+          <p class="submit-warning" id="submit-warning">
+            ⚠ You have unanswered questions. Please answer all questions before submitting.
+          </p>
+          <button type="button" class="btn btn-primary" id="submit-btn" disabled>
+            Submit Exam
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@sgratzl/chartjs-chart-boxplot@4.4.5/build/index.umd.min.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/questions-public.js"></script>
+  <script src="js/exam-session.js"></script>
+  <script src="js/exam.js"></script>
+  <script>
+    document.getElementById('nav-close').addEventListener('click', function () {
+      document.getElementById('question-navigator').classList.remove('nav-open');
+    });
+  </script>
+</body>
+</html>

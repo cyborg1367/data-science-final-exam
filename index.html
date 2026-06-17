@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basics of Data Science — Final Exam</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="landing">
+  <header class="course-banner">
+    <div class="course-banner-inner">
+      <div class="banner-eyebrow">Data Science Course</div>
+      <h1 class="banner-course">Basics of Data Science</h1>
+      <p class="banner-exam-title">Final Exam</p>
+      <div class="banner-meta">
+        <div class="banner-meta-item">
+          <span class="banner-meta-icon">👨‍🏫</span>
+          <span>Instructor: <strong>Masoud Ahangary</strong></span>
+        </div>
+        <div class="banner-meta-item">
+          <span class="banner-meta-icon">📋</span>
+          <span><strong>35</strong> Questions</span>
+        </div>
+        <div class="banner-meta-item">
+          <span class="banner-meta-icon">⏱</span>
+          <span>~<strong>60</strong> min</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container landing-body">
+    <div class="card glass-strong landing-card animate-in">
+      <p class="subtitle">Applied scenarios — questions and answer options are shuffled uniquely for each attempt</p>
+
+      <div class="exam-meta">
+        <div class="meta-chip glass">
+          <span class="meta-chip-value">35</span>
+          <span class="meta-chip-label">Questions</span>
+        </div>
+        <div class="meta-chip glass">
+          <span class="meta-chip-value">60</span>
+          <span class="meta-chip-label">Minutes</span>
+        </div>
+        <div class="meta-chip glass">
+          <span class="meta-chip-value">60%</span>
+          <span class="meta-chip-label">Pass Score</span>
+        </div>
+      </div>
+
+      <div class="topics-preview glass">
+        <h3>Topics Covered</h3>
+        <div class="topic-tags">
+          <span class="topic-tag">Descriptive Statistics</span>
+          <span class="topic-tag">Pandas & EDA</span>
+          <span class="topic-tag">Probability</span>
+          <span class="topic-tag">Random Variables</span>
+            <span class="topic-tag">Linear Regression</span>
+            <span class="topic-tag">Matplotlib & Visualization</span>
+        </div>
+      </div>
+
+      <form id="start-form">
+        <div class="form-group hidden" id="exam-code-group">
+          <label for="exam-code">Exam access code</label>
+          <input
+            type="password"
+            id="exam-code"
+            placeholder="Enter code from your instructor"
+            autocomplete="off"
+            maxlength="64"
+          >
+          <p class="error-msg" id="code-error">Please enter the exam access code.</p>
+        </div>
+        <div class="form-group">
+          <label for="student-name">Enter your full name to begin</label>
+          <input
+            type="text"
+            id="student-name"
+            placeholder="e.g. Sara Ahmadi"
+            autocomplete="name"
+            required
+            minlength="2"
+            maxlength="80"
+          >
+          <p class="error-msg" id="name-error">Please enter your full name (at least 2 characters).</p>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Start Exam →</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script>
+    (function () {
+      const cfg = window.EXAM_CONFIG || {};
+      const codeGroup = document.getElementById('exam-code-group');
+
+      if (cfg.REQUIRE_EXAM_CODE && codeGroup) {
+        codeGroup.classList.remove('hidden');
+        document.getElementById('exam-code').required = true;
+      }
+
+      document.getElementById('start-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const nameInput = document.getElementById('student-name');
+        const errorEl = document.getElementById('name-error');
+        const codeErrorEl = document.getElementById('code-error');
+        const name = nameInput.value.trim();
+
+        if (name.length < 2) {
+          errorEl.classList.add('visible');
+          nameInput.focus();
+          return;
+        }
+        errorEl.classList.remove('visible');
+
+        if (cfg.REQUIRE_EXAM_CODE) {
+          const code = document.getElementById('exam-code').value.trim();
+          if (!code) {
+            codeErrorEl.classList.add('visible');
+            document.getElementById('exam-code').focus();
+            return;
+          }
+          codeErrorEl.classList.remove('visible');
+          sessionStorage.setItem('examAccessCode', code);
+        } else {
+          sessionStorage.removeItem('examAccessCode');
+        }
+
+        if (!cfg.GRADE_API_URL || cfg.GRADE_API_URL.includes('YOUR_PROJECT')) {
+          alert('Exam is not fully configured. Ask your instructor to set up the grading API.');
+          return;
+        }
+
+        sessionStorage.setItem('examStudentName', name);
+        sessionStorage.removeItem('examAnswers');
+        sessionStorage.removeItem('examSubmitted');
+        sessionStorage.removeItem('examResults');
+        sessionStorage.removeItem('examShuffle');
+        sessionStorage.removeItem('examMarked');
+        sessionStorage.setItem('examStartTime', Date.now().toString());
+        window.location.href = 'exam.html';
+      });
+    })();
+  </script>
+</body>
+</html>

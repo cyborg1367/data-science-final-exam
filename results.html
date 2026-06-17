@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results — Basics of Data Science</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="results-page">
+  <header class="course-banner">
+    <div class="course-banner-inner">
+      <div class="banner-eyebrow">Data Science Course</div>
+      <h1 class="banner-course">Basics of Data Science</h1>
+      <p class="banner-exam-title">Final Exam — Results Dashboard</p>
+      <div class="banner-meta">
+        <div class="banner-meta-item">
+          <span class="banner-meta-icon">👨‍🏫</span>
+          <span>Instructor: <strong>Masoud Ahangary</strong></span>
+        </div>
+        <div class="banner-meta-item">
+          <span class="banner-meta-icon">📅</span>
+          <span id="exam-date">—</span>
+        </div>
+        <span class="banner-student-pill" id="banner-student">—</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container container-wide animate-in">
+    <div class="dashboard-grid">
+      <div class="dashboard-panel morph-card score-panel">
+        <div class="panel-label">Overall Score</div>
+        <div class="score-ring">
+          <svg width="170" height="170" viewBox="0 0 170 170">
+            <circle class="score-ring-bg" cx="85" cy="85" r="72"></circle>
+            <circle class="score-ring-fill" id="score-ring-fill" cx="85" cy="85" r="72"
+              stroke="var(--accent)" stroke-dasharray="452.39" stroke-dashoffset="452.39"></circle>
+          </svg>
+          <div class="score-value">
+            <span class="score-number" id="score-number">0</span>
+            <span class="score-label">out of 100</span>
+          </div>
+        </div>
+        <div class="grade-badge" id="grade-badge">—</div>
+        <div class="pass-status" id="pass-status">—</div>
+      </div>
+
+      <div class="dashboard-panel morph-card info-panel">
+        <div class="panel-label">Exam Summary</div>
+        <div class="info-rows" id="info-rows"></div>
+        <div class="summary-text" id="summary-text">—</div>
+      </div>
+    </div>
+
+    <div class="stats-grid" id="stats-grid"></div>
+
+    <div class="section-header">
+      <h2 class="section-title"><span class="section-title-icon">📊</span> Performance by Difficulty</h2>
+    </div>
+    <div class="difficulty-grid" id="difficulty-grid"></div>
+
+    <div class="strength-weakness-grid">
+      <div class="sw-card morph-card strengths">
+        <h3>💪 Your Strengths</h3>
+        <ul class="sw-list" id="strengths-list"></ul>
+      </div>
+      <div class="sw-card morph-card weaknesses">
+        <h3>📚 Areas to Review</h3>
+        <ul class="sw-list" id="weaknesses-list"></ul>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h2 class="section-title"><span class="section-title-icon">🎯</span> Topic Breakdown</h2>
+    </div>
+    <div class="topic-cards" id="topic-cards"></div>
+
+    <div class="study-plan morph-card" id="study-plan">
+      <h3>📖 Recommended Study Plan</h3>
+      <ul class="study-plan-list" id="study-plan-list"></ul>
+    </div>
+
+    <div class="review-section">
+      <div class="section-header">
+        <h2 class="section-title"><span class="section-title-icon">📋</span> Question-by-Question Review</h2>
+      </div>
+      <div class="review-filters" id="review-filters">
+        <button class="filter-btn active" data-filter="all">All (35)</button>
+        <button class="filter-btn" data-filter="correct">Correct</button>
+        <button class="filter-btn" data-filter="incorrect">Incorrect</button>
+      </div>
+      <div id="review-container"></div>
+    </div>
+
+    <div class="results-actions">
+      <a href="index.html" class="btn btn-secondary">← Take Exam Again</a>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@sgratzl/chartjs-chart-boxplot@4.4.5/build/index.umd.min.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/questions-public.js"></script>
+  <script src="js/results.js"></script>
+</body>
+</html>
