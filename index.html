@@ -7,89 +7,66 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="landing">
-  <header class="course-banner">
-    <div class="course-banner-inner">
-      <div class="banner-eyebrow">Data Science Course</div>
-      <h1 class="banner-course">Basics of Data Science</h1>
-      <p class="banner-exam-title">Final Exam</p>
-      <div class="banner-meta">
-        <div class="banner-meta-item">
-          <span class="banner-meta-icon">👨‍🏫</span>
-          <span>Instructor: <strong>Masoud Ahangary</strong></span>
-        </div>
-        <div class="banner-meta-item">
-          <span class="banner-meta-icon">📋</span>
-          <span><strong>35</strong> Questions</span>
-        </div>
-        <div class="banner-meta-item">
-          <span class="banner-meta-icon">⏱</span>
-          <span>~<strong>60</strong> min</span>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div class="landing-stage">
+    <div class="card glass-strong landing-split animate-in">
+      <div class="landing-info">
+        <div class="banner-eyebrow">Data Science Course</div>
+        <h1 class="landing-title">Basics of Data Science</h1>
+        <p class="landing-exam-title">Final Exam</p>
 
-  <div class="container landing-body">
-    <div class="card glass-strong landing-card animate-in">
-      <p class="subtitle">Applied scenarios — questions and answer options are shuffled uniquely for each attempt</p>
+        <div class="landing-meta">
+          <div class="landing-meta-item">
+            <span class="banner-meta-icon icon" data-icon="teacher"></span>
+            <span>Instructor: <strong>Masoud Ahangary</strong></span>
+          </div>
+          <div class="landing-meta-item">
+            <span class="banner-meta-icon icon" data-icon="clipboard"></span>
+            <span><strong>35</strong> Questions · Shuffled order</span>
+          </div>
+          <div class="landing-meta-item">
+            <span class="banner-meta-icon icon" data-icon="clock"></span>
+            <span>~<strong>60</strong> minutes · <strong>60%</strong> to pass</span>
+          </div>
+        </div>
 
-      <div class="exam-meta">
-        <div class="meta-chip glass">
-          <span class="meta-chip-value">35</span>
-          <span class="meta-chip-label">Questions</span>
-        </div>
-        <div class="meta-chip glass">
-          <span class="meta-chip-value">60</span>
-          <span class="meta-chip-label">Minutes</span>
-        </div>
-        <div class="meta-chip glass">
-          <span class="meta-chip-value">60%</span>
-          <span class="meta-chip-label">Pass Score</span>
-        </div>
-      </div>
-
-      <div class="topics-preview glass">
-        <h3>Topics Covered</h3>
-        <div class="topic-tags">
-          <span class="topic-tag">Descriptive Statistics</span>
-          <span class="topic-tag">Pandas & EDA</span>
-          <span class="topic-tag">Probability</span>
-          <span class="topic-tag">Random Variables</span>
-            <span class="topic-tag">Linear Regression</span>
-            <span class="topic-tag">Matplotlib & Visualization</span>
-        </div>
+        <form id="start-form">
+          <div class="form-group hidden" id="exam-code-group">
+            <label for="exam-code"><span class="icon" data-icon="lock"></span>Exam access code</label>
+            <input
+              type="password"
+              id="exam-code"
+              placeholder="Enter code from your instructor"
+              autocomplete="off"
+              maxlength="64"
+            >
+            <p class="error-msg" id="code-error">Please enter the exam access code.</p>
+          </div>
+          <div class="form-group">
+            <label for="student-name">Enter your full name to begin</label>
+            <input
+              type="text"
+              id="student-name"
+              placeholder="e.g. Sara Ahmadi"
+              autocomplete="name"
+              required
+              minlength="2"
+              maxlength="80"
+            >
+            <p class="error-msg" id="name-error">Please enter your full name (at least 2 characters).</p>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Start Exam →</button>
+        </form>
       </div>
 
-      <form id="start-form">
-        <div class="form-group hidden" id="exam-code-group">
-          <label for="exam-code">Exam access code</label>
-          <input
-            type="password"
-            id="exam-code"
-            placeholder="Enter code from your instructor"
-            autocomplete="off"
-            maxlength="64"
-          >
-          <p class="error-msg" id="code-error">Please enter the exam access code.</p>
-        </div>
-        <div class="form-group">
-          <label for="student-name">Enter your full name to begin</label>
-          <input
-            type="text"
-            id="student-name"
-            placeholder="e.g. Sara Ahmadi"
-            autocomplete="name"
-            required
-            minlength="2"
-            maxlength="80"
-          >
-          <p class="error-msg" id="name-error">Please enter your full name (at least 2 characters).</p>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Start Exam →</button>
-      </form>
+      <div class="landing-divider" aria-hidden="true"></div>
+
+      <div class="landing-visual">
+        <img src="assets/data-science-hero-vertical.png" alt="Data science visualizations — charts, scatter plot, and distribution curve" loading="lazy">
+      </div>
     </div>
   </div>
 
+  <script src="js/icons.js"></script>
   <script src="js/config.js"></script>
   <script>
     (function () {

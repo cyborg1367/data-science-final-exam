@@ -80,10 +80,10 @@
 
     const passEl = document.getElementById('pass-status');
     if (results.passed) {
-      passEl.textContent = '✓ Passed (≥ ' + PASS_THRESHOLD + '%)';
+      passEl.innerHTML = icon('check', 'icon-inline') + 'Passed (≥ ' + PASS_THRESHOLD + '%)';
       passEl.className = 'pass-status passed';
     } else {
-      passEl.textContent = '✗ Not Passed (need ' + PASS_THRESHOLD + '%)';
+      passEl.innerHTML = icon('x', 'icon-inline') + 'Not Passed (need ' + PASS_THRESHOLD + '%)';
       passEl.className = 'pass-status failed';
     }
   }
@@ -146,42 +146,42 @@
 
     document.getElementById('stats-grid').innerHTML = `
       <div class="stat-box morph-card">
-        <div class="stat-icon">✓</div>
+        <div class="stat-icon" style="color:var(--success)">${icon('check')}</div>
         <div class="stat-value" style="color:var(--success)">${results.correctCount}</div>
         <div class="stat-label">Correct</div>
       </div>
       <div class="stat-box morph-card">
-        <div class="stat-icon">✗</div>
+        <div class="stat-icon" style="color:var(--danger)">${icon('x')}</div>
         <div class="stat-value" style="color:var(--danger)">${results.incorrectCount}</div>
         <div class="stat-label">Incorrect</div>
       </div>
       <div class="stat-box morph-card">
-        <div class="stat-icon">🎯</div>
+        <div class="stat-icon">${icon('target')}</div>
         <div class="stat-value">${accuracy}%</div>
         <div class="stat-label">Accuracy</div>
       </div>
       <div class="stat-box morph-card">
-        <div class="stat-icon">⏱</div>
+        <div class="stat-icon">${icon('clock')}</div>
         <div class="stat-value">${mins}:${secs.toString().padStart(2, '0')}</div>
         <div class="stat-label">Duration</div>
       </div>
       <div class="stat-box morph-card">
-        <div class="stat-icon">📋</div>
+        <div class="stat-icon">${icon('clipboard')}</div>
         <div class="stat-value">${results.totalQuestions}</div>
         <div class="stat-label">Total Questions</div>
       </div>
       <div class="stat-box morph-card">
-        <div class="stat-icon">⚡</div>
+        <div class="stat-icon">${icon('bolt')}</div>
         <div class="stat-value">${avgSec}s</div>
         <div class="stat-label">Avg / Question</div>
       </div>
       <div class="stat-box morph-card">
-        <div class="stat-icon">${results.passed ? '🏆' : '📖'}</div>
+        <div class="stat-icon" style="color:${results.passed ? 'var(--success)' : 'var(--warning)'}">${icon(results.passed ? 'trophy' : 'book')}</div>
         <div class="stat-value" style="color:${results.passed ? 'var(--success)' : 'var(--warning)'}">${results.passed ? 'Pass' : 'Review'}</div>
         <div class="stat-label">Status (≥${PASS_THRESHOLD}%)</div>
       </div>
       <div class="stat-box morph-card">
-        <div class="stat-icon">📊</div>
+        <div class="stat-icon">${icon('chart')}</div>
         <div class="stat-value">${results.score}</div>
         <div class="stat-label">Final Score</div>
       </div>
@@ -294,7 +294,7 @@
     const list = document.getElementById('study-plan-list');
 
     if (!weakTopics.length) {
-      list.innerHTML = '<li><span class="study-plan-num">✓</span><span>Excellent performance across all topics! Review the question explanations below to consolidate your understanding.</span></li>';
+      list.innerHTML = '<li><span class="study-plan-num">' + icon('check') + '</span><span>Excellent performance across all topics! Review the question explanations below to consolidate your understanding.</span></li>';
       return;
     }
 
@@ -327,7 +327,9 @@
   function buildReviewCard(r) {
     const q = r.question;
     const statusClass = r.isCorrect ? 'correct' : 'incorrect';
-    const statusText = r.isCorrect ? '✓ Correct' : '✗ Incorrect';
+    const statusText = r.isCorrect
+      ? icon('check', 'icon-inline') + 'Correct'
+      : icon('x', 'icon-inline') + 'Incorrect';
 
     const correctSet = new Set(r.correct);
     const selectedSet = new Set(r.selected);
@@ -341,13 +343,13 @@
 
       if (isSelected && isCorrectOpt) {
         rowClass = 'your-correct';
-        prefix = '✓ Your answer (correct): ';
+        prefix = icon('check', 'icon-inline') + 'Your answer (correct): ';
       } else if (isSelected && !isCorrectOpt) {
         rowClass = 'your-wrong';
-        prefix = '✗ Your answer (wrong): ';
+        prefix = icon('x', 'icon-inline') + 'Your answer (wrong): ';
       } else if (!isSelected && isCorrectOpt) {
         rowClass = 'missed';
-        prefix = '○ Correct answer you missed: ';
+        prefix = icon('circle', 'icon-inline') + 'Correct answer you missed: ';
       } else {
         return '';
       }
@@ -418,6 +420,10 @@
 
   function formatQuestion(text) {
     return escapeHtml(text).replace(/\n/g, '<br>');
+  }
+
+  function icon(name, cls) {
+    return window.Icons ? window.Icons.svg(name, { className: cls || '' }) : '';
   }
 
   function renderChart(q) {

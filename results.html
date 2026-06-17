@@ -14,11 +14,11 @@
       <p class="banner-exam-title">Final Exam — Results Dashboard</p>
       <div class="banner-meta">
         <div class="banner-meta-item">
-          <span class="banner-meta-icon">👨‍🏫</span>
+          <span class="banner-meta-icon icon" data-icon="teacher"></span>
           <span>Instructor: <strong>Masoud Ahangary</strong></span>
         </div>
         <div class="banner-meta-item">
-          <span class="banner-meta-icon">📅</span>
+          <span class="banner-meta-icon icon" data-icon="calendar"></span>
           <span id="exam-date">—</span>
         </div>
         <span class="banner-student-pill" id="banner-student">—</span>
@@ -55,34 +55,34 @@
     <div class="stats-grid" id="stats-grid"></div>
 
     <div class="section-header">
-      <h2 class="section-title"><span class="section-title-icon">📊</span> Performance by Difficulty</h2>
+      <h2 class="section-title"><span class="section-title-icon icon" data-icon="chart"></span> Performance by Difficulty</h2>
     </div>
     <div class="difficulty-grid" id="difficulty-grid"></div>
 
     <div class="strength-weakness-grid">
       <div class="sw-card morph-card strengths">
-        <h3>💪 Your Strengths</h3>
+        <h3><span class="icon icon-inline" data-icon="trophy"></span>Your Strengths</h3>
         <ul class="sw-list" id="strengths-list"></ul>
       </div>
       <div class="sw-card morph-card weaknesses">
-        <h3>📚 Areas to Review</h3>
+        <h3><span class="icon icon-inline" data-icon="book"></span>Areas to Review</h3>
         <ul class="sw-list" id="weaknesses-list"></ul>
       </div>
     </div>
 
     <div class="section-header">
-      <h2 class="section-title"><span class="section-title-icon">🎯</span> Topic Breakdown</h2>
+      <h2 class="section-title"><span class="section-title-icon icon" data-icon="target"></span> Topic Breakdown</h2>
     </div>
     <div class="topic-cards" id="topic-cards"></div>
 
     <div class="study-plan morph-card" id="study-plan">
-      <h3>📖 Recommended Study Plan</h3>
+      <h3><span class="icon icon-inline" data-icon="book"></span>Recommended Study Plan</h3>
       <ul class="study-plan-list" id="study-plan-list"></ul>
     </div>
 
     <div class="review-section">
       <div class="section-header">
-        <h2 class="section-title"><span class="section-title-icon">📋</span> Question-by-Question Review</h2>
+        <h2 class="section-title"><span class="section-title-icon icon" data-icon="clipboard"></span> Question-by-Question Review</h2>
       </div>
       <div class="review-filters" id="review-filters">
         <button class="filter-btn active" data-filter="all">All (35)</button>
@@ -97,6 +97,7 @@
     </div>
   </div>
 
+  <script src="js/icons.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@sgratzl/chartjs-chart-boxplot@4.4.5/build/index.umd.min.js"></script>

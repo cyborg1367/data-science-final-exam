@@ -14,11 +14,11 @@
       <p class="banner-exam-title">Final Exam</p>
       <div class="banner-meta">
         <div class="banner-meta-item">
-          <span class="banner-meta-icon">👨‍🏫</span>
+          <span class="banner-meta-icon icon" data-icon="teacher"></span>
           <span>Instructor: <strong>Masoud Ahangary</strong></span>
         </div>
         <div class="banner-meta-item">
-          <span class="banner-meta-icon">📋</span>
+          <span class="banner-meta-icon icon" data-icon="clipboard"></span>
           <span><strong id="question-count">35</strong> Questions · Shuffled order</span>
         </div>
         <span class="banner-student-pill" id="display-name">—</span>
@@ -30,7 +30,7 @@
     <aside class="question-navigator morph-card" id="question-navigator">
       <div class="nav-header">
         <h3>Question Navigator</h3>
-        <button type="button" class="nav-close" id="nav-close" aria-label="Close">✕</button>
+        <button type="button" class="nav-close icon" id="nav-close" data-icon="x" aria-label="Close"></button>
       </div>
       <div class="nav-stats">
         <span class="nav-stat answered-dot">Answered</span>
@@ -45,7 +45,7 @@
       <div class="container exam-container">
         <div class="exam-toolbar morph-inset">
           <div class="exam-toolbar-inner">
-            <button type="button" class="btn btn-nav-toggle" id="nav-toggle">☰ Questions</button>
+            <button type="button" class="btn btn-nav-toggle" id="nav-toggle"><span class="icon icon-inline" data-icon="menu"></span>Questions</button>
             <div class="progress-wrap">
               <div class="progress-label">
                 <span>Exam Progress</span>
@@ -63,7 +63,7 @@
 
         <div class="submit-section">
           <p class="submit-warning" id="submit-warning">
-            ⚠ You have unanswered questions. Please answer all questions before submitting.
+            <span class="icon icon-inline" data-icon="warning"></span>You have unanswered questions. Please answer all questions before submitting.
           </p>
           <button type="button" class="btn btn-primary" id="submit-btn" disabled>
             Submit Exam
@@ -73,6 +73,20 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="confirm-modal" aria-hidden="true">
+    <div class="modal-card morph-card" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div class="modal-icon icon" data-icon="clipboard-check"></div>
+      <h2 class="modal-title" id="confirm-title">Submit your exam?</h2>
+      <p class="modal-text">Once submitted, your answers are final and <strong>cannot be changed</strong>. You'll see your results right away.</p>
+      <p class="modal-note" id="confirm-marked-note" hidden></p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="confirm-cancel">Keep reviewing</button>
+        <button type="button" class="btn btn-primary" id="confirm-submit">Submit exam</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/icons.js"></script>
   <script src="js/config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@sgratzl/chartjs-chart-boxplot@4.4.5/build/index.umd.min.js"></script>

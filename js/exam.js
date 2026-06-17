@@ -69,7 +69,7 @@
           chartHtml +
           (q.multiSelect ? '<p class="question-hint">Select all that apply.</p>' : '') +
           '<button type="button" class="mark-review-btn" data-qid="' + q.id + '">' +
-            (ExamSession.isMarked(q.id) ? '★ Marked for review' : '☆ Mark for review') +
+            markLabel(ExamSession.isMarked(q.id)) +
           '</button>' +
         '</div>' +
       '</div>' +
@@ -85,7 +85,7 @@
       ExamSession.toggleMarked(q.id);
       const marked = ExamSession.isMarked(q.id);
       card.classList.toggle('marked-review', marked);
-      card.querySelector('.mark-review-btn').textContent = marked ? '★ Marked for review' : '☆ Mark for review';
+      card.querySelector('.mark-review-btn').innerHTML = markLabel(marked);
       updateNavigator();
     });
   });
@@ -100,6 +100,7 @@
   startTimer();
 
   document.getElementById('submit-btn').addEventListener('click', submitExam);
+  setupConfirmModal();
 
   const navToggle = document.getElementById('nav-toggle');
   const navigator = document.getElementById('question-navigator');
@@ -210,13 +211,51 @@
       return;
     }
 
-    const marked = ExamSession.loadMarked();
-    let msg = 'Are you sure you want to submit? You cannot change answers after submission.';
-    if (marked.length > 0) {
-      msg += '\n\nYou have ' + marked.length + ' question(s) marked for review.';
-    }
-    if (!confirm(msg)) return;
+    openConfirmModal();
+  }
 
+  function openConfirmModal() {
+    const modal = document.getElementById('confirm-modal');
+    const note = document.getElementById('confirm-marked-note');
+    const marked = ExamSession.loadMarked();
+
+    if (marked.length > 0) {
+      note.innerHTML = icon('warning', 'icon-inline') + 'You still have ' + marked.length + ' question(s) marked for review.';
+      note.hidden = false;
+    } else {
+      note.hidden = true;
+    }
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.getElementById('confirm-submit').focus();
+  }
+
+  function closeConfirmModal() {
+    const modal = document.getElementById('confirm-modal');
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  function setupConfirmModal() {
+    const modal = document.getElementById('confirm-modal');
+    if (!modal) return;
+
+    document.getElementById('confirm-cancel').addEventListener('click', closeConfirmModal);
+    document.getElementById('confirm-submit').addEventListener('click', function () {
+      closeConfirmModal();
+      doSubmit();
+    });
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeConfirmModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeConfirmModal();
+    });
+  }
+
+  function doSubmit() {
+    const ans = loadAnswers();
     const apiUrl = window.EXAM_CONFIG && window.EXAM_CONFIG.GRADE_API_URL;
     if (!apiUrl || apiUrl.includes('YOUR_PROJECT') || apiUrl.includes('REPLACE_ME')) {
       alert('Grading API is not configured. Set GRADE_API_URL in js/config.js to your Vercel URL.');
@@ -298,5 +337,16 @@
 
   function formatQuestion(text) {
     return escapeHtml(text).replace(/\n/g, '<br>');
+  }
+
+  function icon(name, cls) {
+    return window.Icons ? window.Icons.svg(name, { className: cls || '' }) : '';
+  }
+
+  function markLabel(marked) {
+    return (
+      icon(marked ? 'star-filled' : 'star') +
+      '<span>' + (marked ? 'Marked for review' : 'Mark for review') + '</span>'
+    );
   }
 })();
