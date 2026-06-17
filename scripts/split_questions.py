@@ -19,6 +19,21 @@ def strip_comments(text):
     return re.sub(r"//[^\n]*", "", text)
 
 
+def unescape_js(s):
+    """Decode a raw JS string literal body (e.g. `\\"hi\\"`) into its real value.
+
+    The field regexes capture the *source* text including escape sequences, so a
+    quote stored as \\" must be decoded here. Without this, json.dumps would
+    double-escape it (\\" -> \\\\\\") and the page would show literal backslashes.
+    """
+    if s is None:
+        return None
+    try:
+        return json.loads('"' + s + '"')
+    except Exception:
+        return s.replace('\\"', '"').replace("\\\\", "\\")
+
+
 def extract_topics_block(text):
     m = re.search(r"const TOPICS\s*=\s*(\{[\s\S]*?\});", text)
     if not m:
@@ -46,7 +61,7 @@ def extract_questions(text):
 
         def field_str(name):
             fm = re.search(rf'{name}:\s*"((?:[^"\\]|\\.)*)"', body)
-            return fm.group(1) if fm else None
+            return unescape_js(fm.group(1)) if fm else None
 
         def field_bool(name):
             fm = re.search(rf"{name}:\s*(true|false)", body)
@@ -62,7 +77,7 @@ def extract_questions(text):
         options = []
         om = re.search(r"options:\s*\[([\s\S]*?)\n\s*\],", body)
         if om:
-            options = re.findall(r'"((?:[^"\\]|\\.)*)"', om.group(1))
+            options = [unescape_js(o) for o in re.findall(r'"((?:[^"\\]|\\.)*)"', om.group(1))]
 
         q = {
             "id": qid,

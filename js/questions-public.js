@@ -5,7 +5,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "medium",
     multiSelect: false,
-    question: "A food-delivery owner asks: \\\"What does a typical customer order look like?\\\" You compute mean order value = $84 and median = $58. The histogram has a long right tail (a few very large catering orders). Which answer is most honest and useful?",
+    question: "A food-delivery owner asks: \"What does a typical customer order look like?\" You compute mean order value = $84 and median = $58. The histogram has a long right tail (a few very large catering orders). Which answer is most honest and useful?",
     options: [
       "Report the mean ($84) because it uses all the data",
       "Report the median ($58) because it reflects a typical order without being pulled up by rare large orders",
@@ -19,7 +19,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "hard",
     multiSelect: false,
-    question: "A marketing director shows you a scatter plot: monthly ad spend (x) vs revenue (y) with correlation r = 0.93. They conclude: \\\"Cutting ad spend in half will roughly halve our revenue.\\\" As a data analyst, your best response is:",
+    question: "A marketing director shows you a scatter plot: monthly ad spend (x) vs revenue (y) with correlation r = 0.93. They conclude: \"Cutting ad spend in half will roughly halve our revenue.\" As a data analyst, your best response is:",
     options: [
       "Agree — correlation 0.93 proves a direct causal link",
       "Disagree — strong correlation does not prove causation; revenue may drive ad budgets, or both may be driven by seasonality",
@@ -33,7 +33,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "medium",
     multiSelect: true,
-    question: "An HR manager wants to compare salary \\\"fairness\\\" across two departments. Department A: salaries tightly clustered around $55k (low spread). Department B: same average but salaries range from $35k to $90k (high spread). Which statements reflect correct statistical reasoning? (Select all that apply)",
+    question: "An HR manager wants to compare salary \"fairness\" across two departments. Department A: salaries tightly clustered around $55k (low spread). Department B: same average but salaries range from $35k to $90k (high spread). Which statements reflect correct statistical reasoning? (Select all that apply)",
     options: [
       "Equal means do not guarantee equal distributions or similar employee experiences",
       "Standard deviation helps quantify how much individual salaries deviate from the department mean",
@@ -89,7 +89,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "medium",
     multiSelect: false,
-    question: "A shop owner asks: \\\"Which city generated the most total revenue last quarter?\\\" You have a CSV with columns: order_id, city, revenue, order_date (stored as text \\\"2024-03-15\\\"). What is the most appropriate first step in your analysis pipeline?",
+    question: "A shop owner asks: \"Which city generated the most total revenue last quarter?\" You have a CSV with columns: order_id, city, revenue, order_date (stored as text \"2024-03-15\"). What is the most appropriate first step in your analysis pipeline?",
     options: [
       "Immediately run df.groupby('city')['revenue'].sum()",
       "Inspect dtypes, parse order_date to datetime, filter to last quarter, then aggregate by city",
@@ -117,7 +117,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "hard",
     multiSelect: false,
-    question: "An e-commerce owner asks: \\\"What is the average order value (AOV) per region for active customers only?\\\" Each row is one line item (multiple rows per order_id). Which logic best matches the business question?",
+    question: "An e-commerce owner asks: \"What is the average order value (AOV) per region for active customers only?\" Each row is one line item (multiple rows per order_id). Which logic best matches the business question?",
     options: [
       "df[df['status']=='active'].groupby('region')['price'].mean()",
       "Filter active customers → compute total revenue per order_id → then average order totals by region",
@@ -145,7 +145,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "medium",
     multiSelect: false,
-    question: "The CEO asks: \\\"Why did March sales drop 15% compared to February?\\\" You have daily sales, marketing spend, product returns, and a holiday calendar. What should you do FIRST?",
+    question: "The CEO asks: \"Why did March sales drop 15% compared to February?\" You have daily sales, marketing spend, product returns, and a holiday calendar. What should you do FIRST?",
     options: [
       "Build a linear regression model immediately",
       "Form hypotheses, slice March vs February by dimensions (product, channel, region), and look for compositional changes before claiming a single cause",
@@ -159,7 +159,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "hard",
     multiSelect: false,
-    question: "A pandas chain returns the top 3 salespeople by total revenue:\\n\\ndf.groupby('salesperson')['revenue'].sum().sort_values(ascending=False).head(3)\\n\\nThe owner then asks for the same ranking but excluding refunded orders (refund_flag == 1). Which modification preserves correct business logic?",
+    question: "A pandas chain returns the top 3 salespeople by total revenue:\n\ndf.groupby('salesperson')['revenue'].sum().sort_values(ascending=False).head(3)\n\nThe owner then asks for the same ranking but excluding refunded orders (refund_flag == 1). Which modification preserves correct business logic?",
     options: [
       "df.groupby('salesperson')['revenue'].sum().head(3) — refunds are small so ignore them",
       "df[df['refund_flag']==0].groupby('salesperson')['revenue'].sum().sort_values(ascending=False).head(3)",
@@ -187,7 +187,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "hard",
     multiSelect: false,
-    question: "A fraud-detection rule flags 2% of transactions. Historically, 0.3% of all transactions are actually fraudulent. When the rule fires, only 25% of flagged transactions turn out to be fraud. A manager says: \\\"The rule is wrong 75% of the time, so scrap it.\\\" What is the best analyst response?",
+    question: "A fraud-detection rule flags 2% of transactions. Historically, 0.3% of all transactions are actually fraudulent. When the rule fires, only 25% of flagged transactions turn out to be fraud. A manager says: \"The rule is wrong 75% of the time, so scrap it.\" What is the best analyst response?",
     options: [
       "Agree — 75% false flag rate means the rule is useless",
       "Disagree — evaluate using conditional probability and base rates; a rare event (0.3% fraud) means even useful rules can have many false positives among all alerts",
@@ -220,7 +220,7 @@ const EXAM_QUESTIONS = [
       "P(open AND click) = 0.22 × 0.12 = 0.0264",
       "P(click | open) = P(open AND click) / P(open)",
       "P(click) = 0.12 for all recipients, so 12% of everyone clicks",
-      "Events \\\"open\\\" and \\\"click\\\" are dependent — clicking requires opening first in this funnel"
+      "Events \"open\" and \"click\" are dependent — clicking requires opening first in this funnel"
     ],
   },
   {
@@ -243,7 +243,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "hard",
     multiSelect: false,
-    question: "A product manager argues: \\\"90% of users who churned never used Feature X, so requiring Feature X will cut churn by 90%.\\\" What is the critical flaw in this reasoning?",
+    question: "A product manager argues: \"90% of users who churned never used Feature X, so requiring Feature X will cut churn by 90%.\" What is the critical flaw in this reasoning?",
     options: [
       "They should use the median instead of a percentage",
       "They confuse P(did not use X | churned) with P(churn | did not use X) — conditional probability direction matters; most users may never use X anyway",
@@ -257,7 +257,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "medium",
     multiSelect: false,
-    question: "A mobile game offers: win +6 gems (probability 0.30) or lose −3 gems (probability 0.70) per play. The designer says it is \\\"fair because wins are bigger than losses.\\\" What is E[X] per play, and what do you advise the product owner?",
+    question: "A mobile game offers: win +6 gems (probability 0.30) or lose −3 gems (probability 0.70) per play. The designer says it is \"fair because wins are bigger than losses.\" What is E[X] per play, and what do you advise the product owner?",
     options: [
       "E[X] = +0.9 gems; the game favors players long-term",
       "E[X] = −0.3 gems; players lose on average despite larger wins — the house has an edge",
@@ -271,7 +271,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "hard",
     multiSelect: false,
-    question: "A shop owner tracks weekly click-through rate on the same online banner. Each week has 200 independent impressions. Observed rates over 5 weeks: 8%, 12%, 9%, 11%, 10%. The owner says: \\\"Our true click rate is exactly 10% now.\\\" Why is this conclusion statistically weak?",
+    question: "A shop owner tracks weekly click-through rate on the same online banner. Each week has 200 independent impressions. Observed rates over 5 weeks: 8%, 12%, 9%, 11%, 10%. The owner says: \"Our true click rate is exactly 10% now.\" Why is this conclusion statistically weak?",
     options: [
       "The mean of the five weekly rates is always the true population rate with no uncertainty",
       "Each weekly rate is a random outcome; with small samples (n=200), short-run variation is large — LLN applies as the number of trials grows, not because five noisy weekly estimates average to the truth",
@@ -299,7 +299,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "hard",
     multiSelect: true,
-    question: "A call center models each inbound call as an independent Bernoulli trial: \\\"resolved on first contact\\\" with p = 0.75. Over 200 calls in a day, which statements are correct? (Select all that apply)",
+    question: "A call center models each inbound call as an independent Bernoulli trial: \"resolved on first contact\" with p = 0.75. Over 200 calls in a day, which statements are correct? (Select all that apply)",
     options: [
       "The total number of first-contact resolutions follows Binomial(n=200, p=0.75)",
       "Expected resolutions = 150, but observing 140 or 160 is plausible due to variance",
@@ -341,7 +341,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "medium",
     multiSelect: false,
-    question: "You fit daily ice-cream sales (y) vs temperature in °C (x) using ŷ = β₀ + β₁·x. The fitted model is ŷ = 50 + 120x (so β₀ = 50, β₁ = 120) with R² = 0.88. The owner asks: \\\"What do you predict for a 0°C day?\\\" What is the best analyst response?",
+    question: "You fit daily ice-cream sales (y) vs temperature in °C (x) using ŷ = β₀ + β₁·x. The fitted model is ŷ = 50 + 120x (so β₀ = 50, β₁ = 120) with R² = 0.88. The owner asks: \"What do you predict for a 0°C day?\" What is the best analyst response?",
     options: [
       "ŷ = 50 cones — always trust the intercept literally",
       "ŷ = 50 is a mathematical extrapolation; predicting at x=0 may be outside the data range and unreliable even with high R²",
@@ -397,7 +397,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "hard",
     multiSelect: false,
-    question: "Model A: R² = 0.87 but residuals vs fitted show a funnel shape (spread grows with fitted values). Model B: R² = 0.74 with residuals randomly scattered around zero. The owner picks Model A because \\\"higher R² means better predictions.\\\" What is your assessment?",
+    question: "Model A: R² = 0.87 but residuals vs fitted show a funnel shape (spread grows with fitted values). Model B: R² = 0.74 with residuals randomly scattered around zero. The owner picks Model A because \"higher R² means better predictions.\" What is your assessment?",
     options: [
       "Agree — always choose highest R²",
       "Prefer Model B for reliable inference/prediction if residuals are well-behaved; Model A's funnel suggests heteroscedasticity and poor reliability at certain ranges despite high R²",
@@ -411,7 +411,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "medium",
     multiSelect: false,
-    question: "A store manager fits ŷ = β₀ + β₁·x for daily sales (y) vs staffing hours (x) and finds β₁ = 400. They say: \\\"Each extra hour adds $400, so doubling staff from 2 to 4 hours will always add exactly $800 tomorrow.\\\" What nuance should the data scientist add?",
+    question: "A store manager fits ŷ = β₀ + β₁·x for daily sales (y) vs staffing hours (x) and finds β₁ = 400. They say: \"Each extra hour adds $400, so doubling staff from 2 to 4 hours will always add exactly $800 tomorrow.\" What nuance should the data scientist add?",
     options: [
       "None — regression coefficients are guaranteed causal effects",
       "The slope is an average historical association; tomorrow's outcome is uncertain, the relationship may be non-linear, and staffing may not cause sales without controlling confounders",
@@ -425,7 +425,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "hard",
     multiSelect: false,
-    question: "You present Figure 1 to the board. The CFO claims: \\\"MRR grew every single month in 2024, so our retention strategy never faltered.\\\" Which response is best supported by reading the line chart carefully?",
+    question: "You present Figure 1 to the board. The CFO claims: \"MRR grew every single month in 2024, so our retention strategy never faltered.\" Which response is best supported by reading the line chart carefully?",
     options: [
       "The CFO is correct — the line only moves upward",
       "MRR declined month-over-month twice: March→April ($128k to $125k) and August→September ($155k to $149k); overall trend is up, but not monotonic",
@@ -457,7 +457,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "medium",
     multiSelect: false,
-    question: "Operations wants to set a service-level target. The manager says: \\\"Most customers wait over 10 minutes.\\\" What does Figure 3 (histogram) show?",
+    question: "Operations wants to set a service-level target. The manager says: \"Most customers wait over 10 minutes.\" What does Figure 3 (histogram) show?",
     options: [
       "The manager is correct — the tallest bars are on the right",
       "Most calls fall in the 0–4 minute range (bins 0–2 and 2–4 dominate); the distribution is right-skewed with a long tail of long waits",
@@ -473,7 +473,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "hard",
     multiSelect: true,
-    question: "Supply-chain leadership must nominate one hub for a \\\"fast shipping\\\" guarantee. Using Figure 4 (box plot), which statements are valid? (Select all that apply)",
+    question: "Supply-chain leadership must nominate one hub for a \"fast shipping\" guarantee. Using Figure 4 (box plot), which statements are valid? (Select all that apply)",
     options: [
       "Central Hub has the lowest median fulfillment time (~2.4 days) and the tightest box — most consistent performance",
       "West Hub shows the widest spread (largest IQR) and an extreme outlier near 11.6 days that warrants investigation",
@@ -489,7 +489,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "medium",
     multiSelect: false,
-    question: "The CEO asks: \\\"Which channel drove Q4, and how much more did it generate than our B2B portal?\\\" What answer matches Figure 5?",
+    question: "The CEO asks: \"Which channel drove Q4, and how much more did it generate than our B2B portal?\" What answer matches Figure 5?",
     options: [
       "B2B Portal led Q4 with $2.7M — invest there first",
       "Website led Q4 at $6.8M, generating $4.1M more than B2B Portal ($2.7M)",
