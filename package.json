@@ -2,5 +2,8 @@
   "name": "data-science-final-exam",
   "private": true,
   "version": "1.0.0",
-  "description": "Basics of Data Science final exam — static frontend + Vercel grading API"
+  "description": "Basics of Data Science final exam — static frontend + Vercel grading API",
+  "dependencies": {
+    "redis": "^4.7.0"
+  }
 }

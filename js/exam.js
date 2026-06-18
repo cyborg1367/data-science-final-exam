@@ -397,6 +397,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         answers: ans,
+        studentName: sessionStorage.getItem('examStudentName') || '',
         startTime: sessionStorage.getItem('examStartTime'),
         endTime: endTime,
         examCode: sessionStorage.getItem('examAccessCode') || ''

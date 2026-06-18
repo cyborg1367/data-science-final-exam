@@ -76,6 +76,8 @@ window.EXAM_CONFIG = {
 
 Generate `ANSWER_KEY_JSON`:
 
+> **Optional (recommended): gradebook + attempt limits.** See [Gradebook & attempt limits](#gradebook--attempt-limits).
+
 ```bash
 py scripts/export_vercel_env.py
 ```
@@ -116,8 +118,57 @@ Student browser (GitHub Pages)
     └─ on Submit ──POST──► Vercel /api/grade
                               │
                               ├─ verifies EXAM_ACCESS_CODE
+                              ├─ rate-limits + caps attempts (if storage configured)
                               ├─ loads ANSWER_KEY_JSON (server only)
+                              ├─ persists submission to gradebook (if storage configured)
                               └─ returns score + explanations
+```
+
+---
+
+## Gradebook & attempt limits
+
+By default the grader is **stateless** — it scores and returns to the student but stores
+nothing. Connect a Redis store (free tier) to unlock three things:
+
+1. **Gradebook** — every submission `{name, score, correct/total, passed, duration, topics, time}` is saved.
+2. **Attempt cap** — a student name can only submit `MAX_ATTEMPTS` times (default **1**).
+3. **Rate limiting** — at most `RATE_LIMIT_PER_MIN` submissions per IP per minute (default **20**).
+
+If no store is configured, all three are silently skipped and the exam behaves exactly as before.
+
+### Connect a store
+
+Use **Vercel KV** (Storage tab → Create → KV) or a free **[Upstash](https://upstash.com)** Redis DB.
+Vercel usually injects **`REDIS_URL`** when you connect Redis from the Marketplace (Redis Cloud or Upstash). That is enough — the API uses the native Redis protocol.
+
+Optional explicit REST vars (Upstash dashboard / legacy KV — only if you do not use `REDIS_URL`):
+
+| Variable | Value |
+|----------|--------|
+| `REDIS_URL` | `redis://default:…@….db.redis.io:…` (auto from Vercel) |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Upstash REST API |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | legacy Vercel KV |
+
+Then add the controls + gradebook auth:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `MAX_ATTEMPTS` | `1` | Submissions allowed per student name (`0` = unlimited) |
+| `RATE_LIMIT_PER_MIN` | `20` | Max submissions per IP per minute (`0` = off) |
+| `ADMIN_TOKEN` | — | Secret to view the gradebook (required for `/api/results`) |
+
+> Attempt capping keys on the **normalized student name** (case/space-insensitive). Ask students
+> to use their full name; two students with the identical name would share a cap.
+
+### View the gradebook
+
+Open in a browser (instructor only — keep `ADMIN_TOKEN` secret):
+
+```
+https://<project>.vercel.app/api/results?token=YOUR_ADMIN_TOKEN            # HTML table
+https://<project>.vercel.app/api/results?token=YOUR_ADMIN_TOKEN&format=csv # CSV download
+https://<project>.vercel.app/api/results?token=YOUR_ADMIN_TOKEN&format=json
 ```
 
 ---
@@ -196,6 +247,10 @@ Ensure `api/data/answer-key.json` exists locally (from split script).
 | Invalid exam access code | Match code in `EXAM_ACCESS_CODE` (Vercel) with what students enter |
 | Grading failed (500) | Set `ANSWER_KEY_JSON` on Vercel or add `api/data/answer-key.json` for local dev |
 | Students see answers in repo | Ensure `questions.js` is removed; only `questions-public.js` is committed |
+| "Already submitted" (409) | Student hit the `MAX_ATTEMPTS` cap; raise it, set `0`, or clear `exam:attempts:<name>` in Redis |
+| "Too many requests" (429) | IP hit `RATE_LIMIT_PER_MIN`; wait a minute or raise the limit |
+| `/api/results` Unauthorized | `ADMIN_TOKEN` missing or token in URL doesn't match |
+| Gradebook empty / 503 | Connect a Redis store (Upstash/Vercel KV env vars) |
 
 ---
 
