@@ -27,7 +27,7 @@
           </div>
           <div class="landing-meta-item">
             <span class="banner-meta-icon icon" data-icon="clock"></span>
-            <span>~<strong>60</strong> minutes · <strong>60%</strong> to pass</span>
+            <span>~<strong id="exam-duration-min">120</strong> minutes · <strong>60%</strong> to pass</span>
           </div>
         </div>
 
@@ -81,6 +81,11 @@
       if (cfg.REQUIRE_EXAM_CODE && codeGroup) {
         codeGroup.classList.remove('hidden');
         document.getElementById('exam-code').required = true;
+      }
+
+      const durEl = document.getElementById('exam-duration-min');
+      if (durEl && cfg.EXAM_DURATION_MINUTES) {
+        durEl.textContent = cfg.EXAM_DURATION_MINUTES;
       }
 
       const codeInput = document.getElementById('exam-code');

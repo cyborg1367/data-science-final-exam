@@ -7,6 +7,7 @@
 
   window.EXAM_CONFIG = {
     GRADE_API_URL: isLocal ? '/api/grade' : 'https://dc-exam.vercel.app/api/grade',
-    REQUIRE_EXAM_CODE: true
+    REQUIRE_EXAM_CODE: true,
+    EXAM_DURATION_MINUTES: 120
   };
 })();

@@ -842,9 +842,17 @@ input[type="password"]:focus {
 .exam-container { padding: 1rem 1.5rem 3rem; }
 
 .exam-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
   margin-bottom: 1.15rem;
   padding: 0.9rem 1.1rem;
   border-radius: var(--radius-lg);
+  background: rgba(10, 16, 28, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .exam-toolbar-inner {
@@ -881,6 +889,7 @@ input[type="password"]:focus {
 }
 
 .timer {
+  flex-shrink: 0;
   font-family: var(--font-mono);
   font-weight: 600;
   font-size: 0.9rem;
@@ -892,6 +901,18 @@ input[type="password"]:focus {
   border-radius: var(--radius);
   border: 1px solid var(--border);
   box-shadow: var(--inset);
+}
+
+.timer.timer-warning {
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.45);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.2), var(--inset);
+}
+
+.timer.timer-expired {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.25), var(--inset);
 }
 
 /* ===== Question cards — enhanced ===== */

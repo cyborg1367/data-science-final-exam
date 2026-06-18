@@ -400,6 +400,9 @@
   }
 
   function doSubmit() {
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn && submitBtn.disabled) return;
+
     const ans = loadAnswers();
     const apiUrl = window.EXAM_CONFIG && window.EXAM_CONFIG.GRADE_API_URL;
     if (!apiUrl || apiUrl.includes('YOUR_PROJECT') || apiUrl.includes('REPLACE_ME')) {
@@ -411,7 +414,6 @@
       return;
     }
 
-    const submitBtn = document.getElementById('submit-btn');
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting…';
@@ -461,18 +463,31 @@
   }
 
   function startTimer() {
+    const cfg = window.EXAM_CONFIG || {};
+    const limitMin = Math.max(1, parseInt(cfg.EXAM_DURATION_MINUTES, 10) || 120);
+    const limitSec = limitMin * 60;
     const startTime = parseInt(sessionStorage.getItem('examStartTime') || Date.now(), 10);
     const timerEl = document.getElementById('timer');
+    let timeUpHandled = false;
 
     function tick() {
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      const mins = Math.floor(elapsed / 60).toString().padStart(2, '0');
-      const secs = (elapsed % 60).toString().padStart(2, '0');
+      const remaining = Math.max(0, limitSec - elapsed);
+      const mins = Math.floor(remaining / 60).toString().padStart(2, '0');
+      const secs = (remaining % 60).toString().padStart(2, '0');
       timerEl.textContent = mins + ':' + secs;
-      if (MOTION_OK) {
+      timerEl.classList.toggle('timer-warning', remaining > 0 && remaining <= 300);
+      timerEl.classList.toggle('timer-expired', remaining === 0);
+
+      if (MOTION_OK && remaining > 0) {
         timerEl.classList.remove('tick');
         void timerEl.offsetWidth;
         timerEl.classList.add('tick');
+      }
+
+      if (remaining === 0 && !timeUpHandled) {
+        timeUpHandled = true;
+        doSubmit();
       }
     }
 
