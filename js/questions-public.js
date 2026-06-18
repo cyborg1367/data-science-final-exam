@@ -61,7 +61,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "medium",
     multiSelect: false,
-    question: "A café owner studies daily revenue vs number of rainy days per month and finds covariance Cov(rain_days, revenue) = −4,200. Monthly revenue has variance Var(revenue) = 25,000. For the linear model ŷ = β₀ + β₁·(rain_days), where ŷ is predicted monthly revenue, what is β₁ (the slope)?",
+    question: "A café owner studies monthly revenue vs number of rainy days per month and finds covariance Cov(rain_days, revenue) = −4,200. Rainy days per month has variance Var(rain_days) = 25,000. For the linear model ŷ = β₀ + β₁·(rain_days), where ŷ is predicted monthly revenue, what is β₁ (the slope)?",
     options: [
       "−0.168",
       "−6.0",
