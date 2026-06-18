@@ -288,11 +288,12 @@ body::before {
 }
 
 .landing-title {
-  font-size: clamp(2rem, 4.6vw, 2.95rem);
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: -0.03em;
-  margin: 0 0 0.85rem;
+  font-family: 'Merienda', var(--font);
+  font-size: clamp(1.9rem, 4.4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.95rem;
   background: linear-gradient(118deg, #ffffff 0%, #c7d2fe 42%, var(--accent-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;

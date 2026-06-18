@@ -1,3 +1,6 @@
+# Dependencies (install via npm install — Vercel does this on deploy)
+node_modules/
+
 # OS
 .DS_Store
 Thumbs.db
