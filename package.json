@@ -3,6 +3,11 @@
   "private": true,
   "version": "1.0.0",
   "description": "Basics of Data Science final exam — static frontend + Vercel grading API",
+  "scripts": {
+    "dev": "node scripts/local-server.js",
+    "dev:vercel": "vercel dev --listen 3000",
+    "postinstall": "node -e \"const fs=require('fs');if(!fs.existsSync('api/data/answer-key.json')){console.warn('\\n⚠  Missing api/data/answer-key.json — run: py scripts/split_questions.py\\n');}\""
+  },
   "dependencies": {
     "redis": "^4.7.0"
   }

@@ -22,6 +22,8 @@ function setCors(req, res) {
     allowOrigin = origin;
   } else if (allowGithub && /\.github\.io$/.test(origin)) {
     allowOrigin = origin;
+  } else if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+    allowOrigin = origin;
   } else if (process.env.VERCEL_ENV === 'preview' || process.env.VERCEL_ENV === 'development') {
     allowOrigin = origin || '*';
   }

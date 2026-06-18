@@ -210,23 +210,46 @@ https://<project>.vercel.app/api/results?token=YOUR_ADMIN_TOKEN&format=json
 
 ---
 
-## Local development
+## Local development (full exam → dashboard)
 
-**Frontend** (Python HTTP server):
+Run **one command** — a local Node server serves the HTML pages **and** the grading API on the same port (no CORS, no Vercel login).
 
-```bash
-python -m http.server 8080
-```
-
-**API** (Vercel CLI):
+### 1. One-time setup
 
 ```bash
-npx vercel dev
+npm install
+copy .env.local.example .env.local
 ```
 
-Set `js/config.js` → `GRADE_API_URL: 'http://localhost:3000/api/grade'`.
+On macOS/Linux: `cp .env.local.example .env.local`
 
-Ensure `api/data/answer-key.json` exists locally (from split script).
+Ensure the answer key exists:
+
+```bash
+py scripts/split_questions.py
+```
+
+### 2. Start local server
+
+```bash
+npm run dev
+```
+
+Open:
+
+```
+http://localhost:3000/
+```
+
+### 3. Take the exam locally
+
+1. Exam code: `kadoos_dc_exam` (from `.env.local`)
+2. Any student name
+3. Submit → **dashboard** at `results.html`
+
+`js/config.js` uses `/api/grade` on localhost automatically.
+
+**Optional:** `npm run dev:vercel` if you use the Vercel CLI (requires `vercel login`).
 
 ---
 

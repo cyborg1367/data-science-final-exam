@@ -1,8 +1,12 @@
 /**
- * Frontend config — safe to commit (API URL is public; exam code is checked on Vercel only).
- * Replace GRADE_API_URL with your Vercel deployment URL after deploying the API.
+ * Frontend config — API URL switches automatically for local vs production.
  */
-window.EXAM_CONFIG = {
-  GRADE_API_URL: 'https://dc-exam.vercel.app/api/grade',
-  REQUIRE_EXAM_CODE: true
-};
+(function () {
+  const isLocal =
+    location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+  window.EXAM_CONFIG = {
+    GRADE_API_URL: isLocal ? '/api/grade' : 'https://dc-exam.vercel.app/api/grade',
+    REQUIRE_EXAM_CODE: true
+  };
+})();
