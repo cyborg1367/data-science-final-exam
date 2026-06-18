@@ -20,7 +20,7 @@ if (pub.length !== key.questions.length) {
   issues.push('Count mismatch: public=' + pub.length + ' key=' + key.questions.length);
 }
 
-for (let i = 1; i <= 35; i++) {
+for (let i = 1; i <= 36; i++) {
   if (!key.questions.find((q) => q.id === i)) issues.push('Missing id ' + i);
 }
 

@@ -5,6 +5,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "A food-delivery owner asks: \"What does a typical customer order look like?\" You compute mean order value = $84 and median = $58. The histogram has a long right tail (a few very large catering orders). Which answer is most honest and useful?",
     options: [
       "Use the mean ($84) — it uses every order and is best for total revenue planning",
@@ -19,6 +20,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A marketing director shows you a scatter plot: monthly ad spend (x) vs revenue (y) with correlation r = 0.93. They conclude: \"Cutting ad spend in half will roughly halve our revenue.\" As a data analyst, your best response is:",
     options: [
       "Agree — r = 0.93 means ad spend explains most revenue swings, so halving spend should roughly halve revenue",
@@ -33,6 +35,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "medium",
     multiSelect: true,
+    capstone: false,
     question: "An HR manager wants to compare salary \"fairness\" across two departments. Department A: salaries tightly clustered around $55k (low spread). Department B: same average but salaries range from $35k to $90k (high spread). Which statements reflect correct statistical reasoning? (Select all that apply)",
     options: [
       "Equal means can still hide very different salary spreads and employee experiences",
@@ -47,6 +50,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A warehouse logs package delivery times (days). Q1 = 2, Q3 = 5. Using the IQR outlier rule, values above Q3 + 1.5×IQR are flagged. One route shows delivery times: 2, 3, 3, 4, 4, 5, 11. The owner asks whether 11 is a data error. What is the best analyst conclusion?",
     options: [
       "Delete 11 now — values above Q3 are usually data-entry mistakes",
@@ -61,6 +65,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "A café owner studies monthly revenue vs number of rainy days per month and finds covariance Cov(rain_days, revenue) = −4,200. Rainy days per month has variance Var(rain_days) = 25,000. For the linear model ŷ = β₀ + β₁·(rain_days), where ŷ is predicted monthly revenue, what is β₁ (the slope)?",
     options: [
       "−0.168",
@@ -75,6 +80,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Descriptive Statistics",
     difficulty: "hard",
     multiSelect: true,
+    capstone: false,
     question: "A retail owner compares two stores using boxplots of daily foot traffic. Store X's box is narrow and centered high; Store Y's box is wide with a long lower whisker. Which conclusions are statistically justified? (Select all that apply)",
     options: [
       "Store X has less day-to-day traffic variation than Store Y",
@@ -89,6 +95,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "A shop owner asks: \"Which city generated the most total revenue last quarter?\" You have a CSV with columns: order_id, city, revenue, order_date (stored as text \"2024-03-15\"). What is the most appropriate first step in your analysis pipeline?",
     options: [
       "df.groupby('city')['revenue'].sum().idxmax() — group and sum first, then find the top city",
@@ -103,6 +110,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "You load a customer dataset for churn analysis. df.isna().sum() shows customer_age is missing for 38% of rows. The junior analyst runs df.dropna() and builds the report. What is the main problem?",
     options: [
       "dropna() is fine here — 38% missing is normal in customer datasets",
@@ -117,6 +125,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "An e-commerce owner asks: \"What is the average order value (AOV) per region for active customers only?\" Each row is one line item (multiple rows per order_id). Which logic best matches the business question?",
     options: [
       "df[df['status']=='active'].groupby('region')['price'].mean()",
@@ -131,6 +140,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "medium",
     multiSelect: true,
+    capstone: false,
     question: "During EDA on sales data, you find 120 duplicate order_id rows (exact copies). The owner asks whether revenue totals are trustworthy. Which actions reflect sound data-analysis thinking? (Select all that apply)",
     options: [
       "Check whether duplicates are errors, re-exports, or valid repeats before acting",
@@ -145,6 +155,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "The CEO asks: \"Why did March sales drop 15% compared to February?\" You have daily sales, marketing spend, product returns, and a holiday calendar. What should you do FIRST?",
     options: [
       "Run a regression of March sales on marketing spend and report the slope",
@@ -159,6 +170,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Pandas & Data Analysis",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A pandas chain returns the top 3 salespeople by total revenue:\n\ndf.groupby('salesperson')['revenue'].sum().sort_values(ascending=False).head(3)\n\nThe owner then asks for the same ranking but excluding refunded orders (refund_flag == 1). Which modification preserves correct business logic?",
     options: [
       "df.groupby('salesperson')['revenue'].sum().head(3) — refund rows are usually tiny",
@@ -173,6 +185,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "A digital marketer reports: P(customer clicks ad) = 0.04 and P(customer purchases | clicked ad) = 0.10. What is P(click AND purchase)?",
     options: [
       "0.14",
@@ -187,6 +200,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A fraud-detection rule flags 2% of transactions. Historically, 0.3% of all transactions are actually fraudulent. When the rule fires, only 25% of flagged transactions turn out to be fraud. A manager says: \"The rule is wrong 75% of the time, so scrap it.\" What is the best analyst response?",
     options: [
       "Agree — 75% wrong flags means the rule is mostly useless",
@@ -201,6 +215,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "In one day, a customer either buys online (event O) or in-store (event S) for a given product category, never both the same day. P(O)=0.65, P(S)=0.35. Which statement is correct?",
     options: [
       "O and S are independent because customers pick one channel or the other",
@@ -215,6 +230,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "hard",
     multiSelect: true,
+    capstone: false,
     question: "An email campaign has P(open) = 0.22 and P(click | open) = 0.12. The owner wants to understand overall engagement. Which calculations or statements are correct? (Select all that apply)",
     options: [
       "P(open AND click) = 0.22 × 0.12 = 0.0264",
@@ -229,6 +245,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "Quality control: P(defective part) = 0.02 per item, inspected independently. For a single item, which framework applies? For counting defects in a batch of 50 independent items, which framework applies?",
     options: [
       "Binomial for one item; Bernoulli for 50 items",
@@ -243,6 +260,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Probability",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A product manager argues: \"90% of users who churned never used Feature X, so requiring Feature X will cut churn by 90%.\" What is the critical flaw in this reasoning?",
     options: [
       "They should use median churn instead of a percentage",
@@ -257,6 +275,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "A mobile game offers: win +6 gems (probability 0.30) or lose −3 gems (probability 0.70) per play. The designer says it is \"fair because wins are bigger than losses.\" What is E[X] per play, and what do you advise the product owner?",
     options: [
       "E[X] = +0.9 gems; bigger wins mean players come out ahead over time",
@@ -271,6 +290,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A shop owner tracks weekly click-through rate on the same online banner. Each week has 200 independent impressions. Observed rates over 5 weeks: 8%, 12%, 9%, 11%, 10%. The owner says: \"Our true click rate is exactly 10% now.\" Why is this conclusion statistically weak?",
     options: [
       "The mean of the five weekly rates is always the true population rate with no uncertainty",
@@ -285,6 +305,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "An email campaign will reach 5,000 users. Each user opens independently with probability p = 0.08. Let X = number of opens. What is E[X], and why might the actual opens differ from E[X]?",
     options: [
       "E[X] = 400; actual opens can differ because Var(X) = 5000×0.08×0.92",
@@ -299,6 +320,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "hard",
     multiSelect: true,
+    capstone: false,
     question: "A call center models each inbound call as an independent Bernoulli trial: \"resolved on first contact\" with p = 0.75. Over 200 calls in a day, which statements are correct? (Select all that apply)",
     options: [
       "The total number of first-contact resolutions follows Binomial(n=200, p=0.75)",
@@ -313,6 +335,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "Two promotions have the same per-user conversion probability p = 0.05. Promotion A targets 200 users; Promotion B targets 2,000 users. Which comparison about total conversions is most accurate?",
     options: [
       "Both campaigns should produce the same number of conversions because p is equal",
@@ -327,6 +350,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Discrete Random Variables",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "You simulate 50,000 fair coin tosses and observe 49.6% heads. A colleague insists the coin must be biased because it is not exactly 50%. How do you explain this using course concepts?",
     options: [
       "Reject simulation — only theoretical math is valid",
@@ -341,6 +365,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "You fit daily ice-cream sales (y) vs temperature in °C (x) using ŷ = β₀ + β₁·x. The fitted model is ŷ = 50 + 120x (so β₀ = 50, β₁ = 120) with R² = 0.88. The owner asks: \"What do you predict for a 0°C day?\" What is the best analyst response?",
     options: [
       "Predict 50 cones — plug x = 0 into ŷ = 50 + 120x; R² = 0.88 supports that number",
@@ -355,6 +380,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A pricing analyst fits linear regression: price (x) vs daily demand (y) and gets R² = 0.91. The residual plot shows a clear U-shape (residuals negative at low and high prices, positive in the middle). The director wants to deploy the model for pricing. What do you recommend?",
     options: [
       "Deploy now — R² = 0.91 is strong enough for pricing decisions",
@@ -369,6 +395,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "medium",
     multiSelect: true,
+    capstone: false,
     question: "For a simple OLS model ŷ = β₀ + β₁·x, where y is monthly marketing spend and x is new customers acquired, which statements connect regression to descriptive statistics? (Select all that apply)",
     options: [
       "The fitted line always passes through (x̄, ȳ)",
@@ -383,6 +410,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "A model predicting monthly revenue from foot traffic has R² = 0.35. The baseline model always predicts the historical mean revenue (ȳ). How should you explain R² = 0.35 to a non-technical owner?",
     options: [
       "Foot traffic explains about 35% of month-to-month revenue variation beyond always guessing the average",
@@ -397,6 +425,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "Model A: R² = 0.87 but residuals vs fitted show a funnel shape (spread grows with fitted values). Model B: R² = 0.74 with residuals randomly scattered around zero. The owner picks Model A because \"higher R² means better predictions.\" What is your assessment?",
     options: [
       "Pick Model A — higher R² always means better predictions",
@@ -411,6 +440,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Linear Regression",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "A store manager fits ŷ = β₀ + β₁·x for daily sales (y) vs staffing hours (x) and finds β₁ = 400. They say: \"Each extra hour adds $400, so doubling staff from 2 to 4 hours will always add exactly $800 tomorrow.\" What nuance should the data scientist add?",
     options: [
       "No nuance needed — β₁ = 400 is the causal effect of one extra staff hour",
@@ -425,6 +455,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "hard",
     multiSelect: false,
+    capstone: false,
     question: "You present Figure 1 to the board. The CFO claims: \"MRR grew every single month in 2024, so our retention strategy never faltered.\" Which response is best supported by reading the line chart carefully?",
     options: [
       "The CFO is right — year-end MRR is above January, so every month grew",
@@ -441,6 +472,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "hard",
     multiSelect: true,
+    capstone: false,
     question: "The marketing VP asks whether ad spend is worth scaling. Based on Figure 2, which interpretations are justified? (Select all that apply)",
     options: [
       "Higher spend weeks usually line up with higher revenue",
@@ -457,6 +489,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "Operations wants to set a service-level target. The manager says: \"Most customers wait over 10 minutes.\" What does Figure 3 (histogram) show?",
     options: [
       "The manager is right — the long right tail means most customers wait over 10 minutes",
@@ -473,6 +506,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "hard",
     multiSelect: true,
+    capstone: false,
     question: "Supply-chain leadership must nominate one hub for a \"fast shipping\" guarantee. Using Figure 4 (box plot), which statements are valid? (Select all that apply)",
     options: [
       "Central Hub has the lowest median fulfillment time (~2.4 days) and the tightest box — most consistent performance",
@@ -489,6 +523,7 @@ const EXAM_QUESTIONS = [
     topicLabel: "Matplotlib & Visualization",
     difficulty: "medium",
     multiSelect: false,
+    capstone: false,
     question: "The CEO asks: \"Which channel drove Q4, and how much more did it generate than our B2B portal?\" What answer matches Figure 5?",
     options: [
       "B2B Portal led Q4 with $2.7M — invest there first",
@@ -499,6 +534,52 @@ const EXAM_QUESTIONS = [
     chart: "bar_channels",
     chartCaption: "Figure 5 — Q4 revenue by sales channel ($ millions)",
   },
+  {
+    id: 36,
+    topic: "capstone",
+    topicLabel: "Final Integration",
+    difficulty: "hard",
+    multiSelect: true,
+    capstone: true,
+    question: "Which statements belong in an honest analyst memo before the rainy-season campaign? Select every statement that is statistically sound.",
+    options: [
+      "Use the median (~$58) for \"typical order size\" — a few large catering orders pull the mean toward $84.",
+      "Before modeling, check why 38% of ages are missing; blind dropna() can bias who stays in the sample.",
+      "P(click AND purchase) = 0.04 × 0.10 = 0.004 across all users, not 0.14.",
+      "R² = 0.72 is useful, but funnel-shaped residuals mean high-revenue predictions are less reliable.",
+      "Central Hub looks fastest and most consistent; investigate West Hub's ~11.6-day point before a speed pledge.",
+      "Mean $84 alone is the right \"typical order\" because it counts every order equally.",
+      "End-to-end purchase rate is 0.04 + 0.10 = 0.14 because both funnel steps are small.",
+      "The negative rain slope proves each extra rainy day always causes exactly $168 less revenue, causally."
+    ],
+    capstonePanels: [
+      {
+        icon: "clipboard",
+        title: "Dataset",
+        text: "Each row is one line item (many rows can share one order_id).\ncustomer_age is missing in 38% of rows.\norder_date is stored as text — parse before filtering by quarter.",
+      },
+      {
+        icon: "chart",
+        title: "Order values",
+        text: "Mean order value = $84.\nMedian order value = $58.\nHistogram is right-skewed: a few very large catering orders.",
+      },
+      {
+        icon: "bolt",
+        title: "Campaign funnel",
+        text: "P(customer clicks ad) = 0.04.\nP(customer purchases | clicked) = 0.10.\nOwner wants the end-to-end rate across all users.",
+      },
+      {
+        icon: "target",
+        title: "Rain vs revenue model",
+        text: "Linear fit: monthly revenue vs rainy days; slope β₁ = −0.168.\nR² = 0.72 on past months.\nResidual plot: errors spread wider at higher fitted revenue (funnel shape).",
+      },
+      {
+        icon: "chart",
+        title: "Delivery hubs",
+        text: "Central Hub: lowest median time (~2.4 days) and tightest box.\nWest Hub: widest spread; one point ~11.6 days (possible outlier).\nOwner may promise \"fast shipping\" from one hub.",
+      },
+    ],
+  },
 ];
 
 const TOPICS = {
@@ -508,4 +589,5 @@ const TOPICS = {
   random_variables: "Discrete Random Variables",
   linear_regression: "Linear Regression",
   matplotlib: "Matplotlib & Visualization",
+  capstone: "Final Integration",
 };

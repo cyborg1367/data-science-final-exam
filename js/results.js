@@ -379,7 +379,7 @@
         <div class="review-answers">${answerRows || '<div class="review-answer-row your-wrong">No answer selected</div>'}</div>
         <div class="review-explanation">
           <strong>Why: Correct answer is ${escapeHtml(correctAnswerText)}</strong>
-          ${escapeHtml(q.explanation)}
+          ${r.explanation ? '<p class="review-explanation-body">' + escapeHtml(r.explanation) + '</p>' : ''}
         </div>
       </div>`;
   }

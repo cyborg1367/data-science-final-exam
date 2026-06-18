@@ -27,7 +27,10 @@
   orderedQuestions.forEach((q, position) => {
     const displayNum = position + 1;
     const card = document.createElement('article');
-    card.className = 'question-card morph-card' + (REVEAL_OK ? ' q-reveal' : '');
+    const isCapstone = !!q.capstone;
+    card.className = 'question-card morph-card' +
+      (isCapstone ? ' capstone-card' : '') +
+      (REVEAL_OK ? ' q-reveal' : '');
     card.id = 'question-' + q.id;
     card.dataset.questionId = q.id;
     card.dataset.displayNum = displayNum;
@@ -58,20 +61,36 @@
       : '';
 
     const topicClass = 'topic-' + q.topic;
+    const numberHtml = isCapstone
+      ? '<div class="question-number capstone-number ' + topicClass + '" title="Final Integration">' +
+          icon('trophy', 'capstone-num-icon') +
+        '</div>'
+      : '<div class="question-number ' + topicClass + '">' + displayNum + '</div>';
+
+    const briefHtml = isCapstone ? renderCapstoneBrief(q) : '';
+    const questionHtml = isCapstone
+      ? ''
+      : '<p class="question-text">' + formatQuestion(q.question) + '</p>';
 
     card.innerHTML =
       '<div class="question-header">' +
-        '<div class="question-number ' + topicClass + '">' + displayNum + '</div>' +
+        numberHtml +
         '<div class="question-body">' +
           '<div class="question-meta">' +
-            '<span class="badge badge-topic ' + topicClass + '">' + q.topicLabel + '</span>' +
+            '<span class="badge badge-topic ' + topicClass + '">' + escapeHtml(q.topicLabel) + '</span>' +
             '<span class="badge badge-' + q.difficulty + '">' + q.difficulty + '</span>' +
+            (isCapstone ? '<span class="badge badge-capstone">Capstone</span>' : '') +
             (q.multiSelect ? '<span class="badge badge-multi">Multi-select</span>' : '') +
-            (q.chart ? '<span class="badge badge-viz">Read Chart</span>' : '') +
+            (!isCapstone && q.chart ? '<span class="badge badge-viz">Read Chart</span>' : '') +
           '</div>' +
-          '<p class="question-text">' + formatQuestion(q.question) + '</p>' +
+          briefHtml +
+          questionHtml +
           chartHtml +
-          (q.multiSelect ? '<p class="question-hint">Select all that apply.</p>' : '') +
+          (q.multiSelect ? '<p class="question-hint">' +
+            (isCapstone
+              ? 'Read every panel above, then select <strong>all</strong> sound statements.'
+              : 'Select all that apply.') +
+          '</p>' : '') +
           '<button type="button" class="mark-review-btn" data-qid="' + q.id + '">' +
             markLabel(ExamSession.isMarked(q.id)) +
           '</button>' +
@@ -98,6 +117,10 @@
       updateNavigator();
     });
   });
+
+  if (window.Icons && typeof window.Icons.hydrate === 'function') {
+    window.Icons.hydrate(container);
+  }
 
   buildNavigator(orderedQuestions);
 
@@ -133,9 +156,12 @@
       const answered = (answers[q.id] || []).length > 0;
       const marked = ExamSession.isMarked(q.id);
       let cls = 'nav-cell';
+      if (q.capstone) cls += ' nav-capstone';
       if (answered) cls += ' answered';
       if (marked) cls += ' marked';
-      return '<button type="button" class="' + cls + '" data-target="question-' + q.id + '" data-num="' + num + '">' + num + '</button>';
+      const label = q.capstone ? '★' : String(num);
+      return '<button type="button" class="' + cls + '" data-target="question-' + q.id + '" data-num="' + num + '" title="' +
+        (q.capstone ? 'Final Integration Challenge' : 'Question ' + num) + '">' + label + '</button>';
     }).join('');
 
     navGrid.querySelectorAll('.nav-cell').forEach(btn => {
@@ -452,6 +478,43 @@
 
     tick();
     setInterval(tick, 1000);
+  }
+
+  function renderCapstoneBrief(q) {
+    const panels = q.capstonePanels || [];
+    const grid = panels.map(function (p) {
+      const lines = String(p.text || '').split('\n').filter(Boolean);
+      const list = lines.map(function (line) {
+        return '<li>' + escapeHtml(line) + '</li>';
+      }).join('');
+      return (
+        '<article class="capstone-panel">' +
+          '<div class="capstone-panel-head">' +
+            '<span class="capstone-panel-icon icon" data-icon="' + escapeHtml(p.icon) + '"></span>' +
+            '<h3 class="capstone-panel-title">' + escapeHtml(p.title) + '</h3>' +
+          '</div>' +
+          '<ul class="capstone-panel-list">' + list + '</ul>' +
+        '</article>'
+      );
+    }).join('');
+
+    return (
+      '<div class="capstone-brief">' +
+        '<div class="capstone-hero">' +
+          '<span class="capstone-hero-icon icon" data-icon="trophy"></span>' +
+          '<div class="capstone-hero-text">' +
+            '<p class="capstone-eyebrow">Final Integration Challenge</p>' +
+            '<p class="capstone-scenario">QuickBite delivery — rainy-season campaign brief</p>' +
+          '</div>' +
+        '</div>' +
+        '<p class="capstone-guide">Five facts from your analysis. Read each panel, then answer below.</p>' +
+        '<div class="capstone-panel-grid">' + grid + '</div>' +
+        '<div class="capstone-task">' +
+          '<span class="capstone-task-icon icon" data-icon="target"></span>' +
+          '<p class="capstone-task-text">' + escapeHtml(q.question) + '</p>' +
+        '</div>' +
+      '</div>'
+    );
   }
 
   function escapeHtml(text) {

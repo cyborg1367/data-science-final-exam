@@ -14,7 +14,9 @@
       if (saved) return JSON.parse(saved);
     } catch (_) { /* new shuffle */ }
 
-    const questionOrder = fisherYates(EXAM_QUESTIONS.map(q => q.id));
+    const questionOrder = fisherYates(
+      EXAM_QUESTIONS.filter(q => !q.capstone).map(q => q.id)
+    ).concat(EXAM_QUESTIONS.filter(q => q.capstone).map(q => q.id));
     const optionOrders = {};
     EXAM_QUESTIONS.forEach(q => {
       optionOrders[q.id] = fisherYates(q.options.map((_, i) => i));

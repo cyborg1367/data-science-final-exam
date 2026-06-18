@@ -45,6 +45,66 @@ def extract_topics_block(text):
     return topics
 
 
+def extract_capstone_panels(body):
+    m = re.search(r"capstonePanels:\s*\[", body)
+    if not m:
+        return None
+    depth = 0
+    end = m.start()
+    for i in range(m.start(), len(body)):
+        if body[i] == "[":
+            depth += 1
+        elif body[i] == "]":
+            depth -= 1
+            if depth == 0:
+                end = i + 1
+                break
+    block = body[m.start() : end]
+    panels = []
+    for pm in re.finditer(
+        r'icon:\s*"([^"]+)".*?title:\s*"((?:[^"\\]|\\.)*)".*?text:\s*"((?:[^"\\]|\\.)*)"',
+        block,
+        re.DOTALL,
+    ):
+        panels.append(
+            {
+                "icon": pm.group(1),
+                "title": unescape_js(pm.group(2)),
+                "text": unescape_js(pm.group(3)),
+            }
+        )
+    return panels if panels else None
+
+
+def iter_question_blocks(text):
+    """Yield (qid, body) for each top-level question object in the array text."""
+    i = 0
+    while i < len(text):
+        m = re.search(r"\{\s*id:\s*(\d+)\s*,", text[i:])
+        if not m:
+            break
+        start = i + m.start()
+        qid = int(m.group(1))
+        depth = 0
+        j = start
+        while j < len(text):
+            ch = text[j]
+            if ch == "{":
+                depth += 1
+            elif ch == "}":
+                depth -= 1
+                if depth == 0:
+                    block = text[start : j + 1]
+                    inner = block.split(",", 1)
+                    body = inner[1][:-1] if len(inner) > 1 else ""
+                    yield qid, body
+                    i = j + 1
+                    break
+            j += 1
+        else:
+            break
+
+
 def extract_questions(text):
     text = strip_comments(text)
     m = re.search(r"const EXAM_QUESTIONS\s*=\s*\[", text)
@@ -52,12 +112,7 @@ def extract_questions(text):
         raise ValueError("EXAM_QUESTIONS not found")
 
     questions = []
-    for block in re.finditer(
-        r"\{\s*id:\s*(\d+),([\s\S]*?)\n\s*\}",
-        text[m.end() :],
-    ):
-        qid = int(block.group(1))
-        body = block.group(2)
+    for qid, body in iter_question_blocks(text[m.end() :]):
 
         def field_str(name):
             fm = re.search(rf'{name}:\s*"((?:[^"\\]|\\.)*)"', body)
@@ -85,11 +140,15 @@ def extract_questions(text):
             "topicLabel": field_str("topicLabel"),
             "difficulty": field_str("difficulty"),
             "multiSelect": field_bool("multiSelect"),
+            "capstone": field_bool("capstone"),
             "question": field_str("question"),
             "options": options,
             "correct": field_array("correct"),
             "explanation": field_str("explanation"),
         }
+        panels = extract_capstone_panels(body)
+        if panels:
+            q["capstonePanels"] = panels
         chart = field_str("chart")
         if chart:
             q["chart"] = chart
@@ -109,8 +168,8 @@ def js_quote(s):
 def write_public_js(questions, topics):
     lines = ["const EXAM_QUESTIONS = ["]
     public_fields = [
-        "id", "topic", "topicLabel", "difficulty", "multiSelect",
-        "question", "options", "chart", "chartCaption",
+        "id", "topic", "topicLabel", "difficulty", "multiSelect", "capstone",
+        "question", "options", "chart", "chartCaption", "capstonePanels",
     ]
     for q in questions:
         lines.append("  {")
@@ -121,6 +180,15 @@ def write_public_js(questions, topics):
             if key == "options":
                 opts = ",\n      ".join(js_quote(o) for o in val)
                 lines.append(f"    options: [\n      {opts}\n    ],")
+            elif key == "capstonePanels":
+                lines.append("    capstonePanels: [")
+                for panel in val:
+                    lines.append("      {")
+                    lines.append(f"        icon: {js_quote(panel['icon'])},")
+                    lines.append(f"        title: {js_quote(panel['title'])},")
+                    lines.append(f"        text: {js_quote(panel['text'])},")
+                    lines.append("      },")
+                lines.append("    ],")
             elif isinstance(val, bool):
                 lines.append(f"    {key}: {'true' if val else 'false'},")
             else:
@@ -165,8 +233,8 @@ def main():
     topics = extract_topics_block(text)
     questions = extract_questions(text)
 
-    if len(questions) != 35:
-        raise SystemExit(f"Expected 35 questions, parsed {len(questions)}")
+    if len(questions) != 36:
+        raise SystemExit(f"Expected 36 questions, parsed {len(questions)}")
 
     write_public_js(questions, topics)
     write_answer_key(questions, topics)

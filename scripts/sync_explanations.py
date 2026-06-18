@@ -48,14 +48,14 @@ def main():
     key = json.loads(ANSWER_KEY.read_text(encoding="utf-8"))
     by_id = {q["id"]: q["explanation"] for q in key["questions"]}
 
-    if len(by_id) != 35:
-        raise SystemExit(f"Expected 35 explanations, found {len(by_id)}")
+    if len(by_id) != 36:
+        raise SystemExit(f"Expected 36 explanations, found {len(by_id)}")
 
     text = MASTER.read_text(encoding="utf-8")
     new_text, count = sync_explanations(text, by_id)
 
-    if count != 35:
-        raise SystemExit(f"Updated {count}/35 explanations — check master format")
+    if count != 36:
+        raise SystemExit(f"Updated {count}/36 explanations — check master format")
 
     MASTER.write_text(new_text, encoding="utf-8")
     print(f"Synced {count} explanations into {MASTER.relative_to(ROOT)}")

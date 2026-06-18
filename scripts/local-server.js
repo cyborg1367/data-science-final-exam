@@ -156,6 +156,18 @@ const server = http.createServer(async function (nodeReq, nodeRes) {
   }
 });
 
+server.on('error', function (err) {
+  if (err.code === 'EADDRINUSE') {
+    console.error('');
+    console.error('  Port ' + PORT + ' is already in use.');
+    console.error('  Stop the other server (Ctrl+C in its terminal), or run:');
+    console.error('    $env:PORT=3001; npm run dev');
+    console.error('');
+    process.exit(1);
+  }
+  throw err;
+});
+
 server.listen(PORT, function () {
   const keyPath = path.join(ROOT, 'api', 'data', 'answer-key.json');
   console.log('');
